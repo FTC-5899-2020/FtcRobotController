@@ -24,8 +24,7 @@ public class CheeseBot extends LinearOpMode {
         protected DcMotor motorFwdRight = null;
         protected DcMotor motorBackLeft = null;
         protected DcMotor motorBackRight = null;
-        //text- I love you bro <3
-        //now this is a real test
+        
         //Variables
         private double max = 1.0;
         double maxPower;
