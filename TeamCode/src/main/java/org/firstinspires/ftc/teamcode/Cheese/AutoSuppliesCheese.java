@@ -101,7 +101,7 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         motorBackRight.setPower(0);
     }
     public void moveJ(long millis, double x, double y){
-        
+
     }
     public void setPower(double x, double y)
     {
