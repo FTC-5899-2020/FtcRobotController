@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Cheese;
 
 //imports
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -34,20 +34,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import org.openftc.easyopencv.OpenCvInternalCamera;
 import java.util.Locale;
 
-public abstract class AutoSupplies extends LinearOpMode{
+public abstract class AutoSuppliesCheese extends LinearOpMode{
     //  Establish hardware
     protected DcMotor  motorFwdLeft   = null;
     protected DcMotor  motorFwdRight  = null;
     protected DcMotor  motorBackLeft  = null;
     protected DcMotor  motorBackRight = null;
     protected BNO055IMU imu;
-    public DcMotor slideMotor=null;
-    public DcMotor motorIntakeLeft = null;
-    public DcMotor motorIntakeRight = null;
-    public Servo claw1=null;
-    public Servo claw2=null;//this one is further from the slides
-    public Servo grabClaw1=null;
-    public Servo grabClaw2=null;
 
     //  Declare OpMode Members
     protected ElapsedTime runtime = new ElapsedTime();
@@ -107,6 +100,9 @@ public abstract class AutoSupplies extends LinearOpMode{
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
     }
+    public void moveJ(long millis, double x, double y){
+        
+    }
     public void setPower(double x, double y)
     {
         double fwdBackPower = -y;
@@ -164,10 +160,10 @@ public abstract class AutoSupplies extends LinearOpMode{
         double startAngle = getAngle();
         telemetry.addData("Angle3",getAngle());
         telemetry.update();
-        if(getAngle() >= degrees){
+        if(getAngle() <= degrees){
             left *= -1;
         }
-        else if(getAngle() < degrees){
+        else if(getAngle() > degrees){
             right *= -1;
         }
 
@@ -335,19 +331,6 @@ public abstract class AutoSupplies extends LinearOpMode{
 
         return globalPitch;
     }
-
-    public void claw1Down(){
-        claw1.setPosition(0.789);
-    }
-    public void claw2Down(){
-        claw2.setPosition(0.289);
-    }
-    public void claw1Up(){
-        claw1.setPosition(0.186);
-    }
-    public void claw2Up(){
-        claw2.setPosition(0.940);
-    }
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -378,20 +361,6 @@ public abstract class AutoSupplies extends LinearOpMode{
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motorIntakeLeft = hardwareMap.get(DcMotor.class, "motorIntakeLeft");
-        motorIntakeRight = hardwareMap.get(DcMotor.class, "motorIntakeRight");
-        slideMotor = hardwareMap.get(DcMotor.class, "motorSlide");
-        motorIntakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorIntakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        claw1 = hardwareMap.get(Servo.class,"claw1");
-        claw2 = hardwareMap.get(Servo.class,"claw2");
-        claw1.setPosition(.186); //these are the preset up positions for the claws
-        claw2.setPosition(.940);
-        grabClaw1 = hardwareMap.get(Servo.class,"grabClaw1");
-        grabClaw2 = hardwareMap.get(Servo.class,"grabClaw2");
 
         //initializes imu and calibrates it. Prepares lift motor to land using the encoder
         // Lights turn green when it is calibrated

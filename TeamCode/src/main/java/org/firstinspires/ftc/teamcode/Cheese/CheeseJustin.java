@@ -1,26 +1,9 @@
 package org.firstinspires.ftc.teamcode.Cheese;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Autonomous.AutoSupplies;
 
 @Autonomous(name="Cheesy Justin", group="Cheese")
 //@Disabled
-public class CheeseJustin extends AutoSupplies {
+public class CheeseJustin extends AutoSuppliesCheese {
     @Override
     public void runOpMode() {
 
@@ -35,6 +18,8 @@ public class CheeseJustin extends AutoSupplies {
         pause(1000);
         turnToS(90,.5,2);
         pause(500);
+        turnToS(-90,.8,2);
+        pause(100);
 
         //  Turn all motors off and sleep
         motorFwdLeft.setPower(0);
