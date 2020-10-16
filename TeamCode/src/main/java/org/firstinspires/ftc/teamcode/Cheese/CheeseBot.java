@@ -44,7 +44,7 @@ public class CheeseBot extends LinearOpMode {
             telemetry.addData("Status", "Initialized");
             telemetry.update();
 
-            //variables
+            //variables - TEST
             boolean changed3 = false;
             boolean changed4 = false;
 
