@@ -100,46 +100,6 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
     }
-    public void moveJ(long millis, double x, double y){
-        double fwdBackPower = y;
-        double strafePower = x;
-        double leftFrontPower = fwdBackPower - strafePower;
-        double rightFrontPower = fwdBackPower - strafePower;
-        double leftBackPower = fwdBackPower + strafePower;
-        double rightBackPower = fwdBackPower + strafePower;
-        double maxPower;
-        double max = 1.0;
-
-        maxPower = Math.abs(leftFrontPower);
-        if (Math.abs(rightFrontPower) > maxPower) {
-            maxPower = Math.abs(rightFrontPower);
-        }
-        if (Math.abs(leftBackPower) > maxPower) {
-            maxPower = Math.abs(leftBackPower);
-        }
-        if (Math.abs(rightBackPower) > maxPower) {
-            maxPower = Math.abs(rightBackPower);
-        }
-        if (maxPower > 1) {
-            leftFrontPower = leftFrontPower / maxPower;
-            rightFrontPower = rightFrontPower / maxPower;
-            leftBackPower = leftBackPower / maxPower;
-            rightBackPower = rightBackPower / maxPower;
-
-        }
-        //sets the power of the motors
-        runtime.reset();
-        while (opModeIsActive() && runtime.milliseconds() <= millis) {
-            motorFwdLeft.setPower(leftFrontPower*max);
-            motorFwdRight.setPower(rightFrontPower*max);
-            motorBackLeft.setPower(leftBackPower*max);
-            motorBackRight.setPower(rightBackPower*max);
-        }
-        motorFwdLeft.setPower(0);
-        motorFwdRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-    }
     public void setPower(double x, double y)
     {
         double fwdBackPower = -y;

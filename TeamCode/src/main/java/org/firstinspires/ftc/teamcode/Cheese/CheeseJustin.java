@@ -18,7 +18,7 @@ public class CheeseJustin extends AutoSuppliesCheese {
         pause(1000);
         move(3000, 0, .5);
         pause(1000);
-        move(3000,.5, .5);
+        move(1000,.5, .5);
         pause(1000);
         turnToS(90,.5,2);
         pause(500);
