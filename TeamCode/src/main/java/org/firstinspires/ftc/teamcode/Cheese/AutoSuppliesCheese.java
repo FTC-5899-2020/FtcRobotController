@@ -63,9 +63,9 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
     {
         double fwdBackPower = y;
         double strafePower = x;
-        double leftFrontPower = fwdBackPower - strafePower;
+        double leftFrontPower = fwdBackPower + strafePower;
         double rightFrontPower = fwdBackPower - strafePower;
-        double leftBackPower = fwdBackPower + strafePower;
+        double leftBackPower = fwdBackPower - strafePower;
         double rightBackPower = fwdBackPower + strafePower;
         double maxPower;
         double max = 1.0;
@@ -346,17 +346,15 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         //initialize hardware
         //main motors
         motorFwdRight = hardwareMap.get(DcMotor.class, "motorFwdRight");
-        //motorFwdRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFwdRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
-        //motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFwdLeft = hardwareMap.get(DcMotor.class, "motorFwdLeft");
-        //motorFwdLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFwdLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
-        //motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFwdLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        //motorFwdLeft.setDirection(DcMotor.Direction.REVERSE);
-        //motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -373,49 +371,4 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
-    /*public void encoderDrive(double xSpeed, double ySpeed,
-                               double Inches) {
-        int newBackLeftTarget;
-        int newBackRightTarget;
-        int newFwdRightTarget;
-        int newFwdLeftTarget;
-        int dirX;
-        int dirY;
-        if(xSpeed <0){
-            dirX = -1;
-            dirY = 1;
-        }
-        if(xSpeed >0){
-            dirX = 1;
-            dirY = -1;
-        }
-        if(ySpeed <0){
-            dirX = -1;
-            dirY = -1;
-        }
-        if(ySpeed > 0){
-            dirX = 1;
-            dirY = 1;
-        }
-        else{
-            dirX = 0;
-            dirY = 0;
-        }
-        // Determine new target position, and pass to motor controller
-        newBackLeftTarget = motorBackLeft.getCurrentPosition() + (int) ((Inches * COUNTS_PER_INCH)*dirX);
-        newBackRightTarget =motorBackRight.getCurrentPosition() + (int) ((Inches * COUNTS_PER_INCH)*dirY);
-        newFwdLeftTarget = motorFwdLeft.getCurrentPosition() + (int) ((Inches * COUNTS_PER_INCH)*dirY);
-        newFwdRightTarget =  motorFwdRight.getCurrentPosition() + (int) ((Inches * COUNTS_PER_INCH)*dirX);
-        motorBackLeft.setTargetPosition(newBackLeftTarget);
-        motorBackRight.setTargetPosition(newBackRightTarget);
-        motorFwdLeft.setTargetPosition(newFwdLeftTarget);
-        motorFwdRight.setTargetPosition(newFwdRightTarget);
-        // Turn On RUN_TO_POSITION
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFwdRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFwdLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // reset the timeout time and start motion.
-        setPower(xSpeed, ySpeed);
-    }*/
 }
