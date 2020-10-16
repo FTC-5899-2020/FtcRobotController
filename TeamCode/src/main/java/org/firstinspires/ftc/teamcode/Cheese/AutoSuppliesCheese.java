@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Cheese;
 
-//imports and im really cool
+//imports
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
