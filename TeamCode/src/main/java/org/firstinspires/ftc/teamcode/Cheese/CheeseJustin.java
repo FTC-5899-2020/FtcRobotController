@@ -4,6 +4,44 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name="Cheesy Justin", group="Cheese")
 //@Disabled
 public class CheeseJustin extends AutoSuppliesCheese {
+    public void charJ(){
+        move(2000,0,-.5);
+        pause(100);
+        turnToS(90,.5,2);
+        resetAngle();
+        pause(100);
+        move(1000,0,.5);
+        pause(100);
+        turnToS(-90,.5,2);
+        resetAngle();
+        pause(100);
+        move(1000,0,.5);
+        pause(100);
+        turnToS(-90,.5,2);
+        resetAngle();
+        pause(100);
+        move(2000,0,.5);
+        pause(1000);
+    }
+    public void charK(){
+        turnToS(90,.5,2);
+        resetAngle();
+        pause(100);
+        move(500,0,.5);
+        pause(1000);
+        move(1000,0,-.5);
+        pause(1000);
+        move(500,0,.5);
+        pause(100);
+        move(1000,.5,.5);
+        pause(100);
+        move(1000,-.5,-.5);
+        pause(100);
+        move(1000,.5,-.5);
+        pause(100);
+        move(1000,-.5,.5);
+
+    }
     @Override
     public void runOpMode() {
 
@@ -14,16 +52,10 @@ public class CheeseJustin extends AutoSuppliesCheese {
         waitForStart();
 
         pause( 3000 );
-        move(3000,.5,0);
-        pause(1000);
-        move(3000, 0, .5);
-        pause(1000);
-        move(3000,.5, .5);
-        pause(1000);
-        turnToS(90,.5,2);
-        pause(500);
-        turnToS(-90,.8,2);
-        pause(100);
+        charJ();
+        charK();
+
+
 
         //  Turn all motors off and sleep
         motorFwdLeft.setPower(0);
