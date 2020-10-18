@@ -104,11 +104,11 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
     }
     public void setPower(double x, double y)
     {
-        double fwdBackPower = -y;
+        double fwdBackPower = y;
         double strafePower = x;
-        double leftFrontPower = fwdBackPower - strafePower;
+        double leftFrontPower = fwdBackPower + strafePower;
         double rightFrontPower = fwdBackPower - strafePower;
-        double leftBackPower = fwdBackPower + strafePower;
+        double leftBackPower = fwdBackPower - strafePower;
         double rightBackPower = fwdBackPower + strafePower;
 
         motorFwdLeft.setPower(leftFrontPower);
