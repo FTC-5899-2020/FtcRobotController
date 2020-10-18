@@ -15,7 +15,7 @@ public class CheeseRichard extends AutoSuppliesCheese {
 
         //R
         pause( 3000 );
-        move(3182,0,0.5);
+        move(3182,0,0.8);
         pause(500);
         move(1500, 0.5,-0.5);
         pause(500);
@@ -25,13 +25,14 @@ public class CheeseRichard extends AutoSuppliesCheese {
         pause(1000);
         turnToS(-90,.5,2);
         pause(500);
-        move(500,0, 0.5);
+        move(1500,0, 0.5);
         pause(500);
 
         //B
+        resetAngle();
         turnToS(90,.5,2);
         pause(500);
-        move(4244,0,0.5);
+        move(4244,0,0.8);
         pause(500);
         move(1500, 0.5,-0.5);
         pause(500);
