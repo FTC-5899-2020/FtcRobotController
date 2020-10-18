@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Cheese;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -25,6 +26,7 @@ public class CheeseBot extends LinearOpMode {
         protected DcMotor motorBackLeft = null;
         protected DcMotor motorBackRight = null;
         protected Rev2mDistanceSensor distanceLeft = null;
+        protected ColorSensor colorLeft = null;
 
         //Variables
         private double max = 1.0;
@@ -32,6 +34,10 @@ public class CheeseBot extends LinearOpMode {
         double powerLim = 1;
         double moveDir = -1;
         double distance1 = 0;
+        double color1 = 0;
+        double blue = 0;
+        double green = 0;
+        double red = 0;
 
         @Override
         public void runOpMode() {
@@ -43,6 +49,7 @@ public class CheeseBot extends LinearOpMode {
             motorFwdLeft.setDirection(DcMotor.Direction.REVERSE);
             motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
             distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
+            colorLeft = hardwareMap.get(ColorSensor.class, "colorLeft");
             telemetry.addData("Status", "Initialized");
             telemetry.update();
 
@@ -57,7 +64,7 @@ public class CheeseBot extends LinearOpMode {
                 //collects input from the joysticks
                 double fwdBackPower = this.gamepad1.left_stick_y * moveDir;
                 double strafePower = this.gamepad1.left_stick_x * moveDir;
-                double turnPower = this.gamepad1.right_stick_x;
+                double turnPower = -this.gamepad1.right_stick_x;
 
                 //does math to figure the power that should be applied to every motor
                 double leftFrontPower = (fwdBackPower - turnPower - strafePower)*powerLim;
@@ -81,8 +88,6 @@ public class CheeseBot extends LinearOpMode {
                     rightFrontPower = rightFrontPower / maxPower;
                     leftBackPower = leftBackPower / maxPower;
                     rightBackPower = rightBackPower / maxPower;
-                    telemetry.addData("Works",true);
-                    telemetry.update();
                 }
                 //sets the power of the motors
                 motorFwdLeft.setPower(leftFrontPower*max);
@@ -114,11 +119,20 @@ public class CheeseBot extends LinearOpMode {
 
                 //collects data from sensors
                 distance1 = distanceLeft.getDistance(DistanceUnit.MM);
+                color1 = colorLeft.alpha();
+                red = colorLeft.red();
+                green = colorLeft.green();
+                blue = colorLeft.blue();
+
 
                 telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
                 telemetry.addData("Max Speed",powerLim);
                 telemetry.addData("Direction",moveDir);
                 telemetry.addData("Distance in mm", distance1);
+                telemetry.addData("Alpha", color1);
+                telemetry.addData("Red", red);
+                telemetry.addData("Green", green);
+                telemetry.addData("Blue", blue);
                 telemetry.update();
             }
         }
