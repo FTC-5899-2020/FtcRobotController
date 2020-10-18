@@ -42,6 +42,18 @@ public class CheeseJustin extends AutoSuppliesCheese {
         move(1000,-.5,.5);
 
     }
+    public void driveUntil(){
+        while(opModeIsActive()){
+            if(getDistanceLeft()>400){
+                setPower(0,.5);
+            }
+            else{
+                setPower(0,0);
+                resetAngle();
+                turnToS(90,.5,2);
+            }
+        }
+    }
     @Override
     public void runOpMode() {
 
@@ -51,9 +63,9 @@ public class CheeseJustin extends AutoSuppliesCheese {
         //  Wait until start
         waitForStart();
 
-        pause( 3000 );
-        charJ();
-        charK();
+        //charJ();
+        //charK();
+        driveUntil();
 
 
 
