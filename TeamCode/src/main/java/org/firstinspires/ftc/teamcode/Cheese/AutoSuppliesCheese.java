@@ -6,6 +6,7 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -41,6 +42,7 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
     protected DcMotor  motorBackLeft  = null;
     protected DcMotor  motorBackRight = null;
     protected BNO055IMU imu;
+    protected Rev2mDistanceSensor distanceLeft = null;
 
     //  Declare OpMode Members
     protected ElapsedTime runtime = new ElapsedTime();
@@ -328,6 +330,9 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
 
         return globalPitch;
     }
+    public double getDistanceLeft(){
+        return distanceLeft.getDistance(DistanceUnit.MM);
+    }
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -356,7 +361,8 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        //sensors
+        distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
         //initializes imu and calibrates it. Prepares lift motor to land using the encoder
         // Lights turn green when it is calibrated
         telemetry.addData("Mode", "calibrating...");

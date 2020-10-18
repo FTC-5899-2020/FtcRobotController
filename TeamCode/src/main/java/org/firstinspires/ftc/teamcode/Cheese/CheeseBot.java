@@ -24,12 +24,14 @@ public class CheeseBot extends LinearOpMode {
         protected DcMotor motorFwdRight = null;
         protected DcMotor motorBackLeft = null;
         protected DcMotor motorBackRight = null;
+        protected Rev2mDistanceSensor distanceLeft = null;
 
         //Variables
         private double max = 1.0;
         double maxPower;
         double powerLim = 1;
         double moveDir = -1;
+        double distance1 = 0;
 
         @Override
         public void runOpMode() {
@@ -40,7 +42,7 @@ public class CheeseBot extends LinearOpMode {
             motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
             motorFwdLeft.setDirection(DcMotor.Direction.REVERSE);
             motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-
+            distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
             telemetry.addData("Status", "Initialized");
             telemetry.update();
 
@@ -109,9 +111,14 @@ public class CheeseBot extends LinearOpMode {
                     }
                     changed4 = true;
                 } else if(!gamepad1.a){changed4 = false;}
+
+                //collects data from sensors
+                distance1 = distanceLeft.getDistance(DistanceUnit.MM);
+
                 telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
                 telemetry.addData("Max Speed",powerLim);
                 telemetry.addData("Direction",moveDir);
+                telemetry.addData("Distance in mm", distance1);
                 telemetry.update();
             }
         }
