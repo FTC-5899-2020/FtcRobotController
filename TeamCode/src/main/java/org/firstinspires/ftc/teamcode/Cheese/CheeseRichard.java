@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Cheese;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Cheesy Justin", group="Cheese")
+@Autonomous(name="Cheesy Richard", group="Cheese")
 //@Disabled
 public class CheeseRichard extends AutoSuppliesCheese {
     @Override
@@ -13,17 +13,35 @@ public class CheeseRichard extends AutoSuppliesCheese {
         //  Wait until start
         waitForStart();
 
+        //R
         pause( 3000 );
-        move(3000,.5,0);
+        move(3182,0,0.5);
+        pause(500);
+        move(1500, 0.5,-0.5);
+        pause(500);
+        move(1500,-0.5, -0.5);
+        pause(500);
+        move(1500,0.5, -0.5);
         pause(1000);
-        move(3000, 0, .5);
-        pause(1000);
-        move(1000,.5, .5);
-        pause(1000);
+        turnToS(-90,.5,2);
+        pause(500);
+        move(500,0.5, 0.5);
+        pause(500);
+
+        //B
         turnToS(90,.5,2);
         pause(500);
-        turnToS(-90,.8,2);
-        pause(100);
+        move(4244,0,0.5);
+        pause(500);
+        move(1500, 0.5,-0.5);
+        pause(500);
+        move(1500,-0.5, -0.5);
+        pause(500);
+        move(1500,0.5, -0.5);
+        pause(1000);
+        move(1500,-0.5, -0.5);
+        pause(1000);
+
 
         //  Turn all motors off and sleep
         motorFwdLeft.setPower(0);
