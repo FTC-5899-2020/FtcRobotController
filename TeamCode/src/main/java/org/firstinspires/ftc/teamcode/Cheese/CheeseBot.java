@@ -26,6 +26,7 @@ public class CheeseBot extends LinearOpMode {
         protected DcMotor motorBackLeft = null;
         protected DcMotor motorBackRight = null;
         protected Rev2mDistanceSensor distanceLeft = null;
+        protected Rev2mDistanceSensor distanceRight = null;
         protected ColorSensor colorLeft = null;
 
         //Variables
@@ -34,6 +35,7 @@ public class CheeseBot extends LinearOpMode {
         double powerLim = 1;
         double moveDir = -1;
         double distance1 = 0;
+        double distance2 = 0;
         double color1 = 0;
         double blue = 0;
         double green = 0;
@@ -49,6 +51,7 @@ public class CheeseBot extends LinearOpMode {
             motorFwdLeft.setDirection(DcMotor.Direction.REVERSE);
             motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
             distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
+            distanceRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceRight");
             colorLeft = hardwareMap.get(ColorSensor.class, "colorLeft");
             telemetry.addData("Status", "Initialized");
             telemetry.update();
@@ -119,6 +122,7 @@ public class CheeseBot extends LinearOpMode {
 
                 //collects data from sensors
                 distance1 = distanceLeft.getDistance(DistanceUnit.MM);
+                distance2 = distanceRight.getDistance(DistanceUnit.MM);
                 color1 = colorLeft.alpha();
                 red = colorLeft.red();
                 green = colorLeft.green();

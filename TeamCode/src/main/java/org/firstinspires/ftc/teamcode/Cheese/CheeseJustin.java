@@ -47,6 +47,9 @@ public class CheeseJustin extends AutoSuppliesCheese {
             if(getDistanceLeft()>400){
                 setPower(0,.5);
             }
+            else if(getDistanceRight()<400){
+                setPower(0,.5);
+            }
             else{
                 setPower(0,0);
                 resetAngle();

@@ -43,6 +43,8 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
     protected DcMotor  motorBackRight = null;
     protected BNO055IMU imu;
     protected Rev2mDistanceSensor distanceLeft = null;
+    protected Rev2mDistanceSensor distanceRight = null;
+
 
     //  Declare OpMode Members
     protected ElapsedTime runtime = new ElapsedTime();
@@ -333,6 +335,10 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
     public double getDistanceLeft(){
         return distanceLeft.getDistance(DistanceUnit.MM);
     }
+    public double getDistanceRight(){
+        return distanceRight.getDistance(DistanceUnit.MM);
+    }
+
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -363,6 +369,8 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         motorFwdLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //sensors
         distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
+        distanceRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceRight");
+
         //initializes imu and calibrates it. Prepares lift motor to land using the encoder
         // Lights turn green when it is calibrated
         telemetry.addData("Mode", "calibrating...");
