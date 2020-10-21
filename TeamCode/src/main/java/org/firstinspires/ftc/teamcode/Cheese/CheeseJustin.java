@@ -45,32 +45,32 @@ public class CheeseJustin extends AutoSuppliesCheese {
     public void driveUntil(){
         while(opModeIsActive()){
             if(getDistanceLeft()>400 && getDistanceRight()>400){
-                setPower(0,.5);
-            }
-            else if(getDistanceRight()<400 && getDistanceLeft()<400){
-                setPower(0,0);
-                resetAngle();
-                turnToS(90,.5,2);
-            }
-            else if(getDistanceRight()<400 && getDistanceLeft()>400){
-                while(getDistanceRight()<400){
-                    setPower(-.5,0);
-                    if(getDistanceRight()<400 && getDistanceLeft()<400){
-                        setPower(0,0);
-                        resetAngle();
-                        turnToS(90,.5,2);
+                    setPower(0,.5);
+                }
+                else if(getDistanceRight()<400 && getDistanceLeft()<400){
+                    setPower(0,0);
+                    resetAngle();
+                    turnToS(90,.5,2);
+                }
+                else if(getDistanceRight()<400 && getDistanceLeft()>400){
+                    while(getDistanceRight()<400 && opModeIsActive()){
+                        setPower(-.5,0);
+                        if(getDistanceRight()<400 && getDistanceLeft()<400){
+                            setPower(0,0);
+                            resetAngle();
+                            turnToS(90,.5,2);
+                        }
                     }
                 }
-            }
-            else if(getDistanceLeft()<400 && getDistanceRight()>400){
-                while(getDistanceLeft()<400){
-                    setPower(.5,0);
-                    if(getDistanceRight()<400 && getDistanceLeft()<400){
-                        setPower(0,0);
-                        resetAngle();
-                        turnToS(90,.5,2);
+                else if(getDistanceLeft()<400 && getDistanceRight()>400){
+                    while(getDistanceLeft()<400 && opModeIsActive()){
+                        setPower(.5,0);
+                        if(getDistanceRight()<400 && getDistanceLeft()<400){
+                            setPower(0,0);
+                            resetAngle();
+                            turnToS(90,.5,2);
+                        }
                     }
-                }
             }
         }
     }
