@@ -132,7 +132,8 @@ public class CheeseBot extends LinearOpMode {
                 telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
                 telemetry.addData("Max Speed",powerLim);
                 telemetry.addData("Direction",moveDir);
-                telemetry.addData("Distance in mm", distance1);
+                telemetry.addData("Distance1 in mm", distance1);
+                telemetry.addData("Distance2 in mm", distance2);
                 telemetry.addData("Alpha", color1);
                 telemetry.addData("Red", red);
                 telemetry.addData("Green", green);

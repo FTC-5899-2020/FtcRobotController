@@ -20,7 +20,7 @@ public class CheeseLiam extends AutoSuppliesCheese {
         move(1000, 1, 0);
         pause(500);
         //Transfer to O
-        move(1000,.5, 0);
+        move(2000,.5, 0);
         pause(1000);
         //O
         move(1000,.5, .5);
