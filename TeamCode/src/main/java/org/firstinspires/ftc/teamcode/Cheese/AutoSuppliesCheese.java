@@ -177,8 +177,8 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         {
             // On left turn we have to get off zero first.
             while (opModeIsActive() && getAngle() >= degrees) {
-                telemetry.addData("Angle4",getAngle());
-                telemetry.update();
+                //telemetry.addData("Angle4",getAngle());
+                //telemetry.update();
                 if((startAngle + ((distance/4)*3)) > getAngle()){
                     left *= 1.05;
                     right *= 1.05;
@@ -193,8 +193,8 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         }
         else {    // right turn.
             while (opModeIsActive() && getAngle() <= degrees) {
-                telemetry.addData("Angle4", getAngle());
-                telemetry.update();
+                //telemetry.addData("Angle4", getAngle());
+                //telemetry.update();
                 if((startAngle + ((distance/4)*3)) > getAngle()){
                     left *= 1.05;
                     right *= 1.05;
@@ -241,14 +241,14 @@ public abstract class AutoSuppliesCheese extends LinearOpMode{
         {
             // On left turn we have to get off zero first.
             while (opModeIsActive() && getAngle() >= degrees) {
-                telemetry.addData("Angle4",getAngle());
-                telemetry.update();
+                //telemetry.addData("Angle4",getAngle());
+                //telemetry.update();
             }
         }
         else {    // right turn.
             while (opModeIsActive() && getAngle() <= degrees) {
-                telemetry.addData("Angle4", getAngle());
-                telemetry.update();
+                //telemetry.addData("Angle4", getAngle());
+                //telemetry.update();
             }
         }
         // turn the motors off.
