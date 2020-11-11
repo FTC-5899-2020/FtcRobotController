@@ -110,6 +110,16 @@ public class VuforiaLineAlignment extends AutoSuppliesCheese {
                     lastLocation = robotLocationTransform;
 
                 }
+                if (robotLocationTransform == null){
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(-.4);
+                    motorFwdLeft.setPower(.4);
+                    motorFwdRight.setPower(-.4);
+
+                }
+                else{
+                    setPower(0,0);
+                }
                 if (lastLocation != null) {
                     //  RobotLog.vv(TAG, "robot=%s", format(lastLocation));
                     telemetry.addData("Pos", format(lastLocation));
@@ -138,11 +148,55 @@ public class VuforiaLineAlignment extends AutoSuppliesCheese {
                         resetAngle();
                         turnToS( -(180 + (int)rY),0.4,2);
                     }
+                    else if (robotLocationTransform != null && (trackable.getName() == "RedTowerGoal" || trackable.getName() == "BlueTowerGoal")){
+                        if(tZ < 1260) {
+                            setPower(0, -.5);
+                        }
+                        else if(tZ > 1310) {
+                            setPower(0, .5);
+                        }
+                        else{
+                            setPower(0,0);
+                        }
+                    }
+                    else if (robotLocationTransform != null && (trackable.getName() == "RedAlliance")){
+                        if(tX > -250) {
+                            setPower(-.5, 0);
+                        }
+                        else if(tX < -300) {
+                            setPower(.5, 0);
+                        }
+                        else{
+                            setPower(0,0);
+                        }
+                    }
+                    else if (robotLocationTransform != null && (trackable.getName() == "BlueAlliance")){
+                        if(tX < 70) {
+                            setPower(.5, 0);
+                        }
+                        else if(tX > 120){
+                            setPower(-.5, 0);
+                        }
+                        else{
+                            setPower(0,0);
+                        }
+                    }
+                    else if (robotLocationTransform != null && (trackable.getName() == "FrontWall")){
+                        if(tX < 1776) {
+                            setPower(0, -.5);
+                        }
+                        else if(tX > 1830) {
+                            setPower(0, .5);
+                        }
+                        else{
+                            setPower(0,0);
+                        }
+                    }
                     else{
-                        setPower(0, 0);
                         telemetry.addData("GOOD?",0);
                         telemetry.update();
                     }
+
                 } else {
                     telemetry.addData("Pos", "Unknown");
                     setPower(0, 0);
