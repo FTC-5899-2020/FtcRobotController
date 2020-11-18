@@ -131,6 +131,7 @@ public class VuforiaLineAlignment extends AutoSuppliesCheese {
                     double tZ = trans.get(2);
 
                     // Extract the rotational components of the target relative to the robot
+                    
                     double rX = rot.firstAngle;
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
