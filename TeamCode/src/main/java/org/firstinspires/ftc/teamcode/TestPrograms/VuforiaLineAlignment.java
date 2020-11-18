@@ -30,7 +30,6 @@ public class VuforiaLineAlignment extends AutoSuppliesCheese {
 
     OpenGLMatrix lastLocation = null;
     OpenGLMatrix robotLocationTransform = null;
-
     int captureCounter = 0;
     File captureDirectory = AppUtil.ROBOT_DATA_DIR;
 
@@ -108,18 +107,15 @@ public class VuforiaLineAlignment extends AutoSuppliesCheese {
                 OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) trackable.getListener()).getFtcCameraFromTarget();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
-
                 }
-                if (robotLocationTransform == null){
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(-.4);
-                    motorFwdLeft.setPower(.4);
-                    motorFwdRight.setPower(-.4);
-
+                else if (lastLocation == null){
+                    motorBackLeft.setPower(.3);
+                    motorBackRight.setPower(-.3);
+                    motorFwdLeft.setPower(.3);
+                    motorFwdRight.setPower(-.3);
                 }
-                else{
-                    setPower(0,0);
-                }
+                //else if(robotLocationTransform != null && seen == true){ setPower(0,0);}
+                //else if(lastLocation != null){setPower(0,0);}
                 if (lastLocation != null) {
                     //  RobotLog.vv(TAG, "robot=%s", format(lastLocation));
                     telemetry.addData("Pos", format(lastLocation));
@@ -200,7 +196,7 @@ public class VuforiaLineAlignment extends AutoSuppliesCheese {
 
                 } else {
                     telemetry.addData("Pos", "Unknown");
-                    setPower(0, 0);
+                    //setPower(0,0);
             }
             /**
              * Provide feedback as to where the robot was last located (if we know).
