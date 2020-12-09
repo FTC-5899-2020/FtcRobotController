@@ -55,14 +55,14 @@ public class EasyOpenCVExample extends LinearOpMode
         // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
         // out when the RC activity is in portrait. We do our actual image processing assuming
         // landscape orientation, though.
-        webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        //webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                webcam.startStreaming(1184,656, OpenCvCameraRotation.UPRIGHT);//320x240, 1024x576, 1184x656 all work -- 1280x720 does not for some reason
             }
         });
 
