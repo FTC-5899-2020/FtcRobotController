@@ -13,36 +13,26 @@ public class CheeseRichard extends AutoSuppliesCheese {
         //  Wait until start
         waitForStart();
 
-        //R
-        pause( 3000 );
-        move(3182,0,0.8);
+        //straight
+        move(5000,0,1);
         pause(500);
-        move(1500, 0.5,-0.5);
+        move(3000, 1,1);
         pause(500);
-        move(1500,-0.5, -0.5);
+        turnToS(90,0.5, -2);
         pause(500);
-        move(1500,0.5, -0.5);
-        pause(1000);
-        turnToS(-90,.5,2);
+        move(5000,0, 1);
         pause(500);
-        move(1500,0, 0.5);
+        turnToS(-180,.5,-2);
+        pause(500);
+        move(5000,0, 1);
         pause(500);
 
-        //B
-        resetAngle();
-        turnToS(90,.5,2);
+        move(3000,-1,1);
         pause(500);
-        move(4244,0,0.8);
+        turnToS(-90, 0.5,-2);
         pause(500);
-        move(1500, 0.5,-0.5);
+        move(5000,0, 1);
         pause(500);
-        move(1500,-0.5, -0.5);
-        pause(500);
-        move(1500,0.5, -0.5);
-        pause(1000);
-        move(1500,-0.5, -0.5);
-        pause(1000);
-
 
         //  Turn all motors off and sleep
         motorFwdLeft.setPower(0);
