@@ -1,16 +1,15 @@
-package org.firstinspires.ftc.teamcode.Cheese;
+package org.firstinspires.ftc.teamcode.TestPrograms.Odometry;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import org.firstinspires.ftc.teamcode.TestPrograms.Odometry.OdometryGlobalCoordinatePosition;
 import org.firstinspires.ftc.teamcode.Cheese.AutoSuppliesCheeseRichard;
 
 /**
  * Created by Sarthak on 10/4/2019.
  */
 @TeleOp(name = "My Odometry OpMode Richard", group = "Odometry")
-public class CheeseRichard extends AutoSuppliesCheeseRichard {
+public class MyOdometryOpmodeRichard extends AutoSuppliesCheeseRichard {
     //Drive motors
     DcMotor right_front, right_back, left_front, left_back;
     //Odometry Wheels
