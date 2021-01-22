@@ -19,7 +19,6 @@ public class GlobalCoordinatePositionUpdateSample extends LinearOpMode {
 
     //The amount of encoder ticks for each inch the robot moves. This will change for each robot and needs to be changed here
     final double COUNTS_PER_INCH = 307.699557;
-
     //Hardware map names for the encoder wheels. Again, these will change for each robot and need to be updated below
     String rfName = "motorFwdRight", rbName = "motorBackRight", lfName = "motorFwdLeft", lbName = "motorBackLeft";
     String verticalLeftEncoderName = rbName, verticalRightEncoderName = lfName, horizontalEncoderName = rfName;
@@ -42,7 +41,7 @@ public class GlobalCoordinatePositionUpdateSample extends LinearOpMode {
         such that when the verticalLeft and verticalRight encoders spin forward, they return positive values, and when the
         horizontal encoder travels to the right, it returns positive value
         */
-        //verticalLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        verticalLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         verticalRight.setDirection(DcMotorSimple.Direction.REVERSE);
         horizontal.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -67,7 +66,7 @@ public class GlobalCoordinatePositionUpdateSample extends LinearOpMode {
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        //globalPositionUpdate.reverseLeftEncoder();
+        globalPositionUpdate.reverseLeftEncoder();
         globalPositionUpdate.reverseRightEncoder();
         //globalPositionUpdate.reverseNormalEncoder();
 

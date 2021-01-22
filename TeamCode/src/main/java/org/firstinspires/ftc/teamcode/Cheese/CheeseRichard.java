@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Cheese.AutoSuppliesCheeseRichard;
 /**
  * Created by Sarthak on 10/4/2019.
  */
-@TeleOp(name = "My Odometry OpMode Richard", group = "Odometry")
+@TeleOp(name = "Cheese Richard", group = "Odometry")
 public class CheeseRichard extends AutoSuppliesCheeseRichard {
     //Drive motors
     DcMotor right_front, right_back, left_front, left_back;
