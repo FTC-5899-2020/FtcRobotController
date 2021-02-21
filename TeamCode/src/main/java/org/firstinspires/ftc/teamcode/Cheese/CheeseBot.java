@@ -141,7 +141,7 @@ public class CheeseBot extends LinearOpMode {
                         servoPos = 1;
                     }
                 }
-
+                servo.setPosition(servoPos);
                 //collects data from sensors
                 distance1 = distanceLeft.getDistance(DistanceUnit.MM);
                 distance2 = distanceRight.getDistance(DistanceUnit.MM);
