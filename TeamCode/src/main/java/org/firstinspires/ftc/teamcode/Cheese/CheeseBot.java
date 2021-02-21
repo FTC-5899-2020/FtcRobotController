@@ -28,6 +28,7 @@ public class CheeseBot extends LinearOpMode {
         protected Rev2mDistanceSensor distanceLeft = null;
         protected Rev2mDistanceSensor distanceRight = null;
         protected ColorSensor colorLeft = null;
+        protected Servo servo = null;
 
         //Variables
         private double max = 1.0;
@@ -40,6 +41,7 @@ public class CheeseBot extends LinearOpMode {
         double blue = 0;
         double green = 0;
         double red = 0;
+        double servoPos = .5;
 
         @Override
         public void runOpMode() {
@@ -53,6 +55,7 @@ public class CheeseBot extends LinearOpMode {
             distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
             distanceRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceRight");
             colorLeft = hardwareMap.get(ColorSensor.class, "colorLeft");
+            servo = hardwareMap.get(Servo.class, "servo");
             telemetry.addData("Status", "Initialized");
             telemetry.update();
 
@@ -120,6 +123,25 @@ public class CheeseBot extends LinearOpMode {
                     changed4 = true;
                 } else if(!gamepad1.a){changed4 = false;}
 
+                if(gamepad1.dpad_up){//servo controls
+                    servoPos += .01;
+                    if(servoPos < 0){
+                        servoPos = 0;
+                    }
+                    else if(servoPos > 1){
+                        servoPos = 1;
+                    }
+                }
+                else if(gamepad1.dpad_down){
+                    servoPos -= .01;
+                    if(servoPos < 0){
+                        servoPos = 0;
+                    }
+                    else if(servoPos > 1){
+                        servoPos = 1;
+                    }
+                }
+
                 //collects data from sensors
                 distance1 = distanceLeft.getDistance(DistanceUnit.MM);
                 distance2 = distanceRight.getDistance(DistanceUnit.MM);
@@ -128,7 +150,7 @@ public class CheeseBot extends LinearOpMode {
                 green = colorLeft.green();
                 blue = colorLeft.blue();
 
-
+                //all telemetry
                 telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
                 telemetry.addData("Max Speed",powerLim);
                 telemetry.addData("Direction",moveDir);
@@ -138,6 +160,7 @@ public class CheeseBot extends LinearOpMode {
                 telemetry.addData("Red", red);
                 telemetry.addData("Green", green);
                 telemetry.addData("Blue", blue);
+                telemetry.addData("Servo Position", servoPos);
                 telemetry.update();
             }
         }
