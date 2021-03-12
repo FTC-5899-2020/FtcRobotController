@@ -172,7 +172,7 @@ public class Teleop extends LinearOpMode {
             telemetry.addData("Max Speed",powerLim);
             telemetry.addData("Direction",moveDir);
             telemetry.addData("basketServo",basketServo.getPosition());
-       ,     telemetry.addData("unloadServo",unloadServo.getPosition());
+            telemetry.addData("unloadServo",unloadServo.getPosition());
             telemetry.update();
         }
     }
