@@ -68,7 +68,7 @@ public class Teleop extends LinearOpMode {
 
         shooterLeft = hardwareMap.get(DcMotor.class, "shooterLeft");
         shooterRight = hardwareMap.get(DcMotor.class, "shooterRight");
-        intakeFwd = hardwareMap.get(DcMotor.class, "intakeFront");
+        intakeFwd = hardwareMap.get(DcMotor.class, "intakeFwd");
         intakeBack = hardwareMap.get(DcMotor.class, "intakeBack");
 
         basketServo = hardwareMap.get(Servo.class,"basketServo");
@@ -82,6 +82,8 @@ public class Teleop extends LinearOpMode {
         boolean changed2 = false;
         boolean changed3 = false;
         boolean changed4 = false;
+        double basket = .64;
+        double unload = .966;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -89,14 +91,14 @@ public class Teleop extends LinearOpMode {
         while (opModeIsActive()) {
             //movement controls
             //collects input from the joysticks
-            double fwdBackPower = this.gamepad1.left_stick_y * moveDir;
+            double fwdBackPower = -this.gamepad1.left_stick_y * moveDir;
             double strafePower = this.gamepad1.left_stick_x * moveDir;
-            double turnPower = this.gamepad1.right_stick_x;
+            double turnPower = -this.gamepad1.right_stick_x;
 
             //does math to figure the power that should be applied to every motor
-            double leftFrontPower = (fwdBackPower - turnPower - strafePower)*powerLim;
+            double leftFrontPower = (fwdBackPower - turnPower + strafePower)*powerLim;
             double rightFrontPower = (fwdBackPower + turnPower - strafePower)*powerLim;
-            double leftBackPower = (fwdBackPower - turnPower + strafePower)*powerLim;
+            double leftBackPower = (fwdBackPower - turnPower - strafePower)*powerLim;
             double rightBackPower = (fwdBackPower + turnPower + strafePower)*powerLim;
 
 
@@ -124,31 +126,47 @@ public class Teleop extends LinearOpMode {
             motorBackRight.setPower(rightBackPower*max);
 
             //collects input for shooter, and intake motors
-            double intake = this.gamepad1.right_trigger - this.gamepad1.left_trigger;
+            double intake;
+            if(this.gamepad2.right_bumper){
+                if(this.gamepad2.left_bumper){
+                    intake = 0;
+                }
+                else{intake = 1;}
+            }
+            else if(this.gamepad2.left_bumper){
+                intake = -1;
+            }
+            else{intake = 0;}
             double shoot = this.gamepad2.right_trigger - this.gamepad2.left_trigger;
 
 
-            //sets power for lift, plate, intake
-            intakeFwd.setPower(intake);
+            //sets power for intake and shooter
+            intakeFwd.setPower(-intake);
             intakeBack.setPower(intake);
-
-
-            //toggles for the two side arms
-            /*
-            if(gamepad2.x && !changed1) {//toggles the claw near to slides
-                if(claw1Pos == .186){
-                    claw1Pos = .789;
-                    claw1.setPosition(claw1Pos);
-                }
-                else{
-                    claw1Pos = .186;
-                    claw1.setPosition(claw1Pos);
-                }
-                changed1 = true;
-            } else if(!gamepad2.x){changed1 = false;}
-            */
+            shooterLeft.setPower(shoot);
+            shooterRight.setPower(-shoot);
 
             //toggle for speed and direction of the bot for easier control
+            if(gamepad2.a && !changed1) {//basket posistion toggle
+                if(basket == .64){
+                    basket = .471;
+                }
+                else{
+                    basket = .64;
+                }
+                changed1 = true;
+            } else if(!gamepad2.a){changed1 = false;}
+
+            if(gamepad2.b && !changed2) {//unloading arm posistion toggle
+                if(unload == .966){
+                    unload = .441;
+                }
+                else{
+                    unload = .966;
+                }
+                changed2 = true;
+            } else if(!gamepad2.b){changed2 = false;}
+
             if(gamepad1.b && !changed3) {//speed limiter toggle
                 if(powerLim == .5){
                     powerLim = 1;
@@ -168,6 +186,11 @@ public class Teleop extends LinearOpMode {
                 }
                 changed4 = true;
             } else if(!gamepad1.a){changed4 = false;}
+
+            //assign servo position values
+            basketServo.setPosition(basket);
+            unloadServo.setPosition(unload);
+
             telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
             telemetry.addData("Max Speed",powerLim);
             telemetry.addData("Direction",moveDir);
