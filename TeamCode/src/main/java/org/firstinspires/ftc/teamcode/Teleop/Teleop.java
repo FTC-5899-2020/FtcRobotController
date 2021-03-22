@@ -30,6 +30,8 @@ public class Teleop extends LinearOpMode {
     public DcMotor intakeBack = null;
     public Servo basketServo = null;
     public Servo unloadServo = null;
+    public Servo wobbleArmServo = null;
+    public Servo wobbleGrabberServo = null;
 
     //Encoder Values
     // Neverest 40 motor spec: quadrature encoder, 280 pulses per revolution, count = 280 *4
@@ -73,6 +75,8 @@ public class Teleop extends LinearOpMode {
 
         basketServo = hardwareMap.get(Servo.class,"basketServo");
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
+        wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
+        wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -82,8 +86,12 @@ public class Teleop extends LinearOpMode {
         boolean changed2 = false;
         boolean changed3 = false;
         boolean changed4 = false;
+        boolean changed5 = false;
+        boolean changed6 = false;
         double basket = .64;
         double unload = .966;
+        double wobbleArm = 0.4149;
+        double wobbleGrabber = 0.5;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -146,7 +154,27 @@ public class Teleop extends LinearOpMode {
             shooterLeft.setPower(shoot);
             shooterRight.setPower(-shoot);
 
-            //toggle for speed and direction of the bot for easier control
+            //toggle for various actions for the bot for easier control
+            if(gamepad2.x && !changed5) {//wobble arm posistion toggle
+                if(wobbleArm == .0199){
+                    wobbleArm = .2839;
+                }
+                else{
+                    wobbleArm = .0199;
+                }
+                changed5 = true;
+            } else if(!gamepad2.x){changed5 = false;}
+
+            if(gamepad2.y && !changed6) {//wobble grabber posistion toggle - NOT CORRECT POSISTIONS
+                if(wobbleGrabber == .5){
+                    wobbleGrabber = .5;
+                }
+                else{
+                    wobbleGrabber = .5;
+                }
+                changed6 = true;
+            } else if(!gamepad2.y){changed6 = false;}
+
             if(gamepad2.a && !changed1) {//basket posistion toggle
                 if(basket == .64){
                     basket = .471;
@@ -190,6 +218,8 @@ public class Teleop extends LinearOpMode {
             //assign servo position values
             basketServo.setPosition(basket);
             unloadServo.setPosition(unload);
+            wobbleArmServo.setPosition(wobbleArm);
+            wobbleGrabberServo.setPosition(wobbleGrabber);
 
             telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
             telemetry.addData("Max Speed",powerLim);
