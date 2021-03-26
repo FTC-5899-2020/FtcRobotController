@@ -16,7 +16,7 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-@TeleOp(name = "LiamTempTeleOp", group = "TeleOp")
+@TeleOp(name = "CompetitionTeleOp", group = "CompetitionTeleOp")
 
 public class Teleop extends LinearOpMode {
     //All hardware

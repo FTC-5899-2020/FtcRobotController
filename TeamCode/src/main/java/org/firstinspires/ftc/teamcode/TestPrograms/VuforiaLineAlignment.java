@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.Cheese.AutoSuppliesCheese;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 
 
 @TeleOp(name="Vuforia Line Alignment", group ="Test Group")
-//@Disabled
+@Disabled
 public class VuforiaLineAlignment extends AutoSuppliesCheese {
 
     public static final String TAG = "Vuforia VuMark Sample";

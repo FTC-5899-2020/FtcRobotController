@@ -18,7 +18,7 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="Cheesy Boi", group="Cheese")
-//@Disabled
+@Disabled
 public class CheeseBot extends LinearOpMode {
         //All hardware
         protected DcMotor motorFwdLeft = null;

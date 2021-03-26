@@ -19,6 +19,8 @@ public class ServoTest extends LinearOpMode {
     public DcMotor intakeBack = null;
     public Servo basketServo = null;
     public Servo unloadServo = null;
+    public Servo wobbleGrabberServo = null;
+    public Servo wobbleArmServo = null;
 
 
     double servo = 0.5;
@@ -39,6 +41,8 @@ public class ServoTest extends LinearOpMode {
 
         basketServo = hardwareMap.get(Servo.class,"basketServo");
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
+        wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
+        wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -56,9 +60,9 @@ public class ServoTest extends LinearOpMode {
             else if(gamepad1.dpad_down){
                 servo -= 0.001;
             }
-            unloadServo.setPosition(servo);
+            wobbleGrabberServo.setPosition(servo);
 
-            telemetry.addData("unloadServo",unloadServo.getPosition());
+            telemetry.addData("unloadServo",basketServo.getPosition());
             telemetry.addData("servo", servo);
             telemetry.update();
         }

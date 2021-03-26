@@ -6,7 +6,9 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 public class RectangleDetectionOpenCV extends OpenCvPipeline {
 
     //We declare the mats ontop so we can reuse them later to avoid memory leaks

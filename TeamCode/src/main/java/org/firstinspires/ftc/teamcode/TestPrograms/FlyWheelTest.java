@@ -18,7 +18,7 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="FlyWheelTest", group="Test Group")
-//@Disabled
+@Disabled
 public class FlyWheelTest extends LinearOpMode{
 
     //All hardware

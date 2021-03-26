@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Cheese;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name="Cheesy Liam", group="Cheese")
-//@Disabled
+@Disabled
 public class CheeseLiam extends AutoSuppliesCheese {
     @Override
     public void runOpMode() {
