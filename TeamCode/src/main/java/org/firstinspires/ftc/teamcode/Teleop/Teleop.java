@@ -91,7 +91,7 @@ public class Teleop extends LinearOpMode {
         double basket = .64;
         double unload = .966;
         double wobbleArm = 0.4149;
-        double wobbleGrabber = 0.5;
+        double wobbleGrabber = 0.00;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -166,11 +166,11 @@ public class Teleop extends LinearOpMode {
             } else if(!gamepad2.x){changed5 = false;}
 
             if(gamepad2.y && !changed6) {//wobble grabber posistion toggle - NOT CORRECT POSISTIONS
-                if(wobbleGrabber == .5){
-                    wobbleGrabber = .5;
+                if(wobbleGrabber == 0){
+                    wobbleGrabber = .319;
                 }
                 else{
-                    wobbleGrabber = .5;
+                    wobbleGrabber = 0;
                 }
                 changed6 = true;
             } else if(!gamepad2.y){changed6 = false;}

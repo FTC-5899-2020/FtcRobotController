@@ -41,6 +41,8 @@ public abstract class AutoSupplies extends LinearOpMode{
     protected BNO055IMU imu;
     protected Rev2mDistanceSensor distanceFwdLeft = null;
     protected Rev2mDistanceSensor distanceFwdRight = null;
+    protected Rev2mDistanceSensor distanceBackLeft = null;
+    protected Rev2mDistanceSensor distanceBackRight = null;
 
 
     //  Declare OpMode Members
@@ -325,11 +327,17 @@ public abstract class AutoSupplies extends LinearOpMode{
 
         return globalPitch;
     }
-    public double getDistanceLeft(){
+    public double getDistanceFwdLeft(){
         return distanceFwdLeft.getDistance(DistanceUnit.MM);
     }
-    public double getDistanceRight(){
+    public double getDistanceFwdRight(){
         return distanceFwdRight.getDistance(DistanceUnit.MM);
+    }
+    public double getDistanceBackLeft(){
+        return distanceBackRight.getDistance(DistanceUnit.MM);
+    }
+    public double getDistanceBackRight(){
+        return distanceBackRight.getDistance(DistanceUnit.MM);
     }
 
     public void initForAutonomous()
@@ -361,8 +369,10 @@ public abstract class AutoSupplies extends LinearOpMode{
         motorFwdRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //sensors
-        distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
-        distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceRight");
+        distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdLeft");
+        distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
+        distanceBackLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackLeft");
+        distanceBackRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackRight");
 
         //initializes imu and calibrates it. Prepares lift motor to land using the encoder
         // Lights turn green when it is calibrated
