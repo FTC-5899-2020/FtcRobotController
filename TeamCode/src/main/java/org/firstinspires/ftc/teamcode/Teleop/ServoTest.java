@@ -64,7 +64,7 @@ public class ServoTest extends LinearOpMode {
 
             telemetry.addData("unloadServo",basketServo.getPosition());
             telemetry.addData("servo", servo);
-            telemetry.update();
+            telemetry.update(); 
         }
     }
 }
