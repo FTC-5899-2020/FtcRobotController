@@ -4,10 +4,13 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -20,6 +23,9 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 //import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
@@ -34,16 +40,29 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 public abstract class AutoSupplies extends LinearOpMode{
     //  Establish hardware
+    //motors
     protected DcMotor  motorFwdLeft   = null;
     protected DcMotor  motorFwdRight  = null;
     protected DcMotor  motorBackLeft  = null;
     protected DcMotor  motorBackRight = null;
+    public DcMotor shooterLeft = null;
+    public DcMotor shooterRight = null;
+    public DcMotor intakeFwd = null;
+    public DcMotor intakeBack = null;
+    public RevBlinkinLedDriver lights;
     protected BNO055IMU imu;
+    //sensors
     protected Rev2mDistanceSensor distanceFwdLeft = null;
     protected Rev2mDistanceSensor distanceFwdRight = null;
     protected Rev2mDistanceSensor distanceBackLeft = null;
     protected Rev2mDistanceSensor distanceBackRight = null;
-
+    //servos
+    public Servo basketServo = null;
+    public Servo unloadServo = null;
+    public Servo wobbleArmServo = null;
+    public Servo wobbleGrabberServo = null;
+    //camera
+    public AutoSupplies.SkystoneDeterminationPipeline pipeline;
 
     //  Declare OpMode Members
     protected ElapsedTime runtime = new ElapsedTime();
@@ -55,6 +74,11 @@ public abstract class AutoSupplies extends LinearOpMode{
     protected Orientation lastAngles = new Orientation();
     protected Orientation lastPitches = new Orientation();
 
+    //Encoder Values
+    //Neverest 40 motor spec: quadrature encoder, 7 pulses per revolution, count = 7 * 40
+    private static final double COUNTS_PER_MOTOR_REV = 280; // Neverest 40 motor encoder
+    private static final double DRIVE_GEAR_REDUCTION = 1; // This is < 1 if geared up
+    private static final double COUNTS_PER_DEGREE1 = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / 360;
     //---callable methods---
 
     //move
@@ -98,6 +122,77 @@ public abstract class AutoSupplies extends LinearOpMode{
         motorFwdRight.setPower(0);
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
+    }
+    public void encoderMove(double degrees, double x, double y){
+        resetDriveEncoders();
+        double counts = degrees * COUNTS_PER_DEGREE1;
+        double fwdBackPower = y;
+        double strafePower = x;
+        double leftFrontPower = fwdBackPower + strafePower;
+        double rightFrontPower = fwdBackPower - strafePower;
+        double leftBackPower = fwdBackPower - strafePower;
+        double rightBackPower = fwdBackPower + strafePower;
+        double maxPower;
+        double max = 1.0;
+        double posPower = 0.2;
+        maxPower = Math.abs(leftFrontPower);
+        if (Math.abs(rightFrontPower) > maxPower) {
+            maxPower = Math.abs(rightFrontPower);
+        }
+        if (Math.abs(leftBackPower) > maxPower) {
+            maxPower = Math.abs(leftBackPower);
+        }
+        if (Math.abs(rightBackPower) > maxPower) {
+            maxPower = Math.abs(rightBackPower);
+        }
+        if (maxPower > 1) {
+            leftFrontPower = leftFrontPower / maxPower;
+            rightFrontPower = rightFrontPower / maxPower;
+            leftBackPower = leftBackPower / maxPower;
+            rightBackPower = rightBackPower / maxPower;
+
+        }
+        //sets the power of the motors
+        double averageEnc = (Math.abs(motorFwdLeft.getCurrentPosition())
+                + Math.abs(motorFwdRight.getCurrentPosition())
+                + Math.abs(motorBackLeft.getCurrentPosition())
+                + Math.abs(motorBackRight.getCurrentPosition()))/4.0;
+        while (opModeIsActive() && averageEnc <= counts){
+            averageEnc = (Math.abs(motorFwdLeft.getCurrentPosition())
+                    + Math.abs(motorFwdRight.getCurrentPosition())
+                    + Math.abs(motorBackLeft.getCurrentPosition())
+                    + Math.abs(motorBackRight.getCurrentPosition()))/4.0;
+            if(posPower < 1 && averageEnc/counts < .5){
+                posPower *= 1.1;
+            }
+            else if(posPower >= 1 && averageEnc/counts <.5){
+                posPower = 1;
+            }
+            else if(averageEnc/counts >= .5 && posPower >= .25){
+                posPower *= .98;
+            }
+            else{
+                posPower = .25;
+            }
+            motorFwdLeft.setPower(leftFrontPower*max*posPower);
+            motorBackLeft.setPower(leftBackPower*max*posPower);
+            motorFwdRight.setPower(rightFrontPower*max*posPower);
+            motorBackRight.setPower(rightBackPower*max*posPower);
+        }
+        motorFwdLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFwdRight.setPower(0);
+        motorBackRight.setPower(0);
+    }
+    public void resetDriveEncoders(){
+        motorFwdLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFwdLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFwdRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFwdRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void setPower(double x, double y)
     {
@@ -252,6 +347,9 @@ public abstract class AutoSupplies extends LinearOpMode{
         motorBackRight.setPower(0);
         motorFwdRight.setPower(0);
     }
+    public void alignDistanceFwd(){
+
+    }
     //  Pause for the specified amount of time (time: mili secs)
     public void pause(long millis){
         runtime.reset();
@@ -339,7 +437,34 @@ public abstract class AutoSupplies extends LinearOpMode{
     public double getDistanceBackRight(){
         return distanceBackRight.getDistance(DistanceUnit.MM);
     }
-
+    //add functions to set positions of servos here
+    public void basketServoDown(){
+        basketServo.setPosition(0.641);
+    }
+    public void basketServoUp(){
+        basketServo.setPosition(0.471);
+    }
+    public void wobbleArmStart(){
+        wobbleArmServo.setPosition(0.4149);
+    }
+    public void wobbleArmUp(){
+        wobbleArmServo.setPosition(0.2830);
+    }
+    public void wobbleArmDown(){
+        wobbleArmServo.setPosition(0.0199);
+    }
+    public void wobbleGrabberClosed(){
+        wobbleGrabberServo.setPosition(0);
+    }
+    public void wobbleGrabberOpen(){
+        wobbleGrabberServo.setPosition(0.319);
+    }
+    public void unloadServoPush(){
+        unloadServo.setPosition(.441);
+    }
+    public void unloadServoBack(){
+        unloadServo.setPosition(.966);
+    }
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -352,38 +477,77 @@ public abstract class AutoSupplies extends LinearOpMode{
         gyroParameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         gyroParameters.loggingEnabled      = false;
 
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
         //initialize hardware
         //main motors
         motorFwdRight = hardwareMap.get(DcMotor.class, "motorFwdRight");
-        motorFwdRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFwdRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFwdLeft = hardwareMap.get(DcMotor.class, "motorFwdLeft");
-        motorFwdLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFwdLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
-        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFwdLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFwdLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //other motors
+        shooterLeft = hardwareMap.get(DcMotor.class, "shooterLeft");
+        shooterRight = hardwareMap.get(DcMotor.class, "shooterRight");
+        intakeFwd = hardwareMap.get(DcMotor.class, "intakeFwd");
+        intakeBack = hardwareMap.get(DcMotor.class, "intakeBack");
         //sensors
         distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdLeft");
         distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
         distanceBackLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackLeft");
         distanceBackRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackRight");
-
-        //initializes imu and calibrates it. Prepares lift motor to land using the encoder
+        //servos
+        basketServo = hardwareMap.get(Servo.class,"basketServo");
+        unloadServo = hardwareMap.get(Servo.class,"unloadServo");
+        wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
+        wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
+        resetDriveEncoders();
         // Lights turn green when it is calibrated
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(gyroParameters);
 
+        wobbleArmStart();
+        wobbleGrabberClosed();
+        //basketServoDown();
+        //unloadServoPush();
+
+        //setup Camera
+        final OpenCvCamera webcam;
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new AutoSupplies.SkystoneDeterminationPipeline();
+        webcam.setPipeline(pipeline);
+
+        //--Setup Camera--
+        //webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(1184,656, OpenCvCameraRotation.UPRIGHT);//320x240, 1024x576, 1184x656 all work -- 1280x720 does not for some reason
+            }
+        });
+        double time1 = runtime.milliseconds();
+        double time2 = 0;
+        while(time2 < (time1 + 4000) && opModeIsActive()){//intended to ensure that the camera works but does not function
+            time2 = runtime.milliseconds();
+        }
         telemetry.clear();
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
     }
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
     {
@@ -406,10 +570,10 @@ public abstract class AutoSupplies extends LinearOpMode{
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181,98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(592,480);
 
-        static final int REGION_WIDTH = 35;
-        static final int REGION_HEIGHT = 25;
+        static final int REGION_WIDTH = 105;
+        static final int REGION_HEIGHT = 150;
 
         final int FOUR_RING_THRESHOLD = 150;
         final int ONE_RING_THRESHOLD = 135;

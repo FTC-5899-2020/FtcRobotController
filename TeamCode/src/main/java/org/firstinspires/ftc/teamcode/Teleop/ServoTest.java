@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "ServoTest", group = "TeleOp")
 
@@ -21,6 +24,8 @@ public class ServoTest extends LinearOpMode {
     public Servo unloadServo = null;
     public Servo wobbleGrabberServo = null;
     public Servo wobbleArmServo = null;
+    public Rev2mDistanceSensor distanceFwdLeft = null;
+    public Rev2mDistanceSensor distanceFwdRight = null;
 
 
     double servo = 0.5;
@@ -44,6 +49,9 @@ public class ServoTest extends LinearOpMode {
         wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
         wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
 
+        distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdLeft");
+        distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -64,6 +72,8 @@ public class ServoTest extends LinearOpMode {
 
             telemetry.addData("unloadServo",basketServo.getPosition());
             telemetry.addData("servo", servo);
+            telemetry.addData("Distance Forward Left", distanceFwdLeft.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Forward Right", distanceFwdRight.getDistance(DistanceUnit.MM));
             telemetry.update();
         }
     }

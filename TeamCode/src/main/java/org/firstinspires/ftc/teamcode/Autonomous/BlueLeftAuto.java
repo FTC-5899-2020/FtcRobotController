@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 //-----imports-----
 //main imports
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //opencv imports
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoSupplies;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -28,33 +30,40 @@ public class BlueLeftAuto extends AutoSupplies{
     public void runOpMode() {
 
         //  Establish all hardware
-        final OpenCvCamera webcam;
-        AutoSupplies.SkystoneDeterminationPipeline pipeline;
+
         initForAutonomous();
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new AutoSupplies.SkystoneDeterminationPipeline();
-        webcam.setPipeline(pipeline);
 
-
-        //--Setup Camera--
-        //webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(1184,656, OpenCvCameraRotation.UPRIGHT);//320x240, 1024x576, 1184x656 all work -- 1280x720 does not for some reason
-            }
-        });
 
         //  Wait until start
         waitForStart();
-        while(opModeIsActive()) {
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Position", pipeline.position);
-            telemetry.update();
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_GRAY);
+        telemetry.addData("Analysis", pipeline.getAnalysis());
+        telemetry.addData("Position", pipeline.position);
+        telemetry.update();
+        sleep(300);
+        int ringCnt = pipeline.getAnalysis(); // 4 rings: >150 --- 1 ring: >130 & <150 --- 0 rings: <130
+        sleep(300);
+        if(ringCnt <= 130){
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
+        else if(ringCnt > 130 && ringCnt < 150){
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        }
+        else{
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        }
+        encoderMove(500, 0, .7);
+        encoderMove(420, -.7, 0);
+        turnToS(0,.6,2);
+        encoderMove(3000, 0, 1);
+        turnToS(0, .6, 2);
+        while((distanceFwdLeft.getDistance(DistanceUnit.MM)+distanceFwdRight.getDistance(DistanceUnit.MM))/2 > 700){
+            setPower(0, .4);
+        }
+        setPower(0,0);
+        //  Turn all motors off and sleep
+        setPower(0, 0);
+        sleep(1000);
     }
 }
