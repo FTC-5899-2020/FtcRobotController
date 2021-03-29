@@ -162,14 +162,14 @@ public abstract class AutoSupplies extends LinearOpMode{
                     + Math.abs(motorFwdRight.getCurrentPosition())
                     + Math.abs(motorBackLeft.getCurrentPosition())
                     + Math.abs(motorBackRight.getCurrentPosition()))/4.0;
-            if(posPower < 1 && averageEnc/counts < .5){
+            if(posPower < 1 && averageEnc/counts < .6){
                 posPower *= 1.1;
             }
-            else if(posPower >= 1 && averageEnc/counts <.5){
+            else if(posPower >= 1 && averageEnc/counts <.6){
                 posPower = 1;
             }
-            else if(averageEnc/counts >= .5 && posPower >= .25){
-                posPower *= .98;
+            else if(averageEnc/counts >= .6 && posPower >= .25){
+                posPower *= .99;
             }
             else{
                 posPower = .25;
@@ -445,7 +445,7 @@ public abstract class AutoSupplies extends LinearOpMode{
         basketServo.setPosition(0.471);
     }
     public void wobbleArmStart(){
-        wobbleArmServo.setPosition(0.4149);
+        wobbleArmServo.setPosition(0.40999);
     }
     public void wobbleArmUp(){
         wobbleArmServo.setPosition(0.2830);
@@ -459,6 +459,7 @@ public abstract class AutoSupplies extends LinearOpMode{
     public void wobbleGrabberOpen(){
         wobbleGrabberServo.setPosition(0.319);
     }
+    public void wobbleGrabberEject(){wobbleGrabberServo.setPosition(.921);}
     public void unloadServoPush(){
         unloadServo.setPosition(.441);
     }

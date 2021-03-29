@@ -90,7 +90,7 @@ public class Teleop extends LinearOpMode {
         boolean changed6 = false;
         double basket = .64;
         double unload = .966;
-        double wobbleArm = 0.4149;
+        double wobbleArm = 0.409999;
         double wobbleGrabber = 0.00;
 
         // Wait for the game to start (driver presses PLAY)
