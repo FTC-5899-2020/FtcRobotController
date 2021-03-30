@@ -89,7 +89,7 @@ public class Teleop extends LinearOpMode {
         boolean changed5 = false;
         boolean changed6 = false;
         double basket = .64;
-        double unload = .966;
+        double unload = .01433;
         double wobbleArm = 0.409999;
         double wobbleGrabber = 0.00;
 
@@ -186,11 +186,11 @@ public class Teleop extends LinearOpMode {
             } else if(!gamepad2.a){changed1 = false;}
 
             if(gamepad2.b && !changed2) {//unloading arm posistion toggle
-                if(unload == .966){
-                    unload = .441;
+                if(unload == .01433){
+                    unload = .336;
                 }
                 else{
-                    unload = .966;
+                    unload = .01433;
                 }
                 changed2 = true;
             } else if(!gamepad2.b){changed2 = false;}

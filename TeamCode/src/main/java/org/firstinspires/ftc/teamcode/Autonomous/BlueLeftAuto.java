@@ -34,7 +34,6 @@ public class BlueLeftAuto extends AutoSupplies{
         initForAutonomous();
 
 
-
         //  Wait until start
         waitForStart();
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_GRAY);
@@ -44,43 +43,78 @@ public class BlueLeftAuto extends AutoSupplies{
         sleep(300);
         int ringCnt = pipeline.getAnalysis(); // 4 rings: >150 --- 1 ring: >130 & <150 --- 0 rings: <130
         sleep(300);
-        if(ringCnt <= 130){
+        if (ringCnt <= 130) {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-        }
-        else if(ringCnt > 130 && ringCnt < 150){
+        } else if (ringCnt > 130 && ringCnt < 150) {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-        }
-        else{
+        } else {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
         encoderMove(500, 0, .7);
-        encoderMove(450, -.7, 0);
-        turnToS(0,.6,2);
-        encoderMove(2000, 0, 1);
+        encoderMove(525, -.7, 0);
+        turnToS(0, .6, 2);
+        wobbleArmDown();
+        encoderMove(2500, 0, 1);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP2_LIGHT_CHASE);
         turnToS(0, .6, 2);
-        while((distanceFwdLeft.getDistance(DistanceUnit.MM)+distanceFwdRight.getDistance(DistanceUnit.MM))/2 > 700){
-            setPower(0, .4);
+        if (ringCnt >= 150) {
+            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 500) {
+                setPower(0, .4);
+            }
+        } else {
+            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 700) {
+                setPower(0, .4);
+            }
         }
-        setPower(0,0);
-        if(ringCnt > 130 && ringCnt < 150){
-            turnToS(90,.7, 2);
+
+        setPower(0, 0);
+        if (ringCnt > 130 && ringCnt < 150) {
+            turnToS(90, .7, 2);
+        } else if (ringCnt >= 150) {
+            turnToS(210, .7, 2);
         }
-        else if(ringCnt >= 150){
-            turnToS(180,.7, 2);
-        }
-        wobbleArmDown();
-        sleep(1500);
         wobbleGrabberOpen();
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_2_TWINKLES);
-        sleep(800);
+        sleep(400);
         wobbleGrabberEject();
         sleep(200);
+        wobbleArmUp();
+        sleep(500);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
-        encoderMove(300,0,1);
+        if (ringCnt > 130 && ringCnt < 150) {
+            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
+                setPower(0, .4);
+            }
+        }
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_2_SINELON);
+        turnToS(0, .7, 2);
+        basketServoUp();
+        if (ringCnt > 150) {
+            encoderMove(600, 1, 0);
+            turnToS(0, .6, 2);
+            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
+                setPower(0, .5);
+            }
+        } else {
+            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
+                setPower(0, .5);
+            }
+            encoderMove(600, 1, 0);
+            turnToS(0, .6, 2);
+        }
+
+        shooterLeft.setPower(.6);
+        shooterRight.setPower(.6);
+        sleep(1000);
+        //for(int i = 0, i < 3, i++){
+            //unloadServoPush();
+            //sleep(400);
+            //unloadServoBack();
+        //}
         //  Turn all motors off and sleep
         setPower(0, 0);
+        shooterLeft.setPower(0);
+        shooterRight.setPower(0);
         sleep(1000);
     }
 }

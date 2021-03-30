@@ -26,6 +26,7 @@ public class ServoTest extends LinearOpMode {
     public Servo wobbleArmServo = null;
     public Rev2mDistanceSensor distanceFwdLeft = null;
     public Rev2mDistanceSensor distanceFwdRight = null;
+    public Rev2mDistanceSensor distanceLeft = null;
 
 
     double servo = 0.5;
@@ -51,6 +52,7 @@ public class ServoTest extends LinearOpMode {
 
         distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdLeft");
         distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
+        distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -68,12 +70,14 @@ public class ServoTest extends LinearOpMode {
             else if(gamepad1.dpad_down){
                 servo -= 0.001;
             }
-            wobbleGrabberServo.setPosition(servo);
+            unloadServo.setPosition(servo);
 
             telemetry.addData("unloadServo",basketServo.getPosition());
             telemetry.addData("servo", servo);
-            telemetry.addData("Distance Forward Left", distanceFwdLeft.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance  Left", distanceLeft.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Right", distanceFwdRight.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Forward Left", distanceFwdLeft.getDistance(DistanceUnit.MM));
+
             telemetry.update();
         }
     }

@@ -56,6 +56,8 @@ public abstract class AutoSupplies extends LinearOpMode{
     protected Rev2mDistanceSensor distanceFwdRight = null;
     protected Rev2mDistanceSensor distanceBackLeft = null;
     protected Rev2mDistanceSensor distanceBackRight = null;
+    protected Rev2mDistanceSensor distanceLeft = null;
+
     //servos
     public Servo basketServo = null;
     public Servo unloadServo = null;
@@ -437,6 +439,8 @@ public abstract class AutoSupplies extends LinearOpMode{
     public double getDistanceBackRight(){
         return distanceBackRight.getDistance(DistanceUnit.MM);
     }
+    public double getDistanceLeft(){ return distanceLeft.getDistance(DistanceUnit.MM); }
+
     //add functions to set positions of servos here
     public void basketServoDown(){
         basketServo.setPosition(0.641);
@@ -460,12 +464,8 @@ public abstract class AutoSupplies extends LinearOpMode{
         wobbleGrabberServo.setPosition(0.319);
     }
     public void wobbleGrabberEject(){wobbleGrabberServo.setPosition(.921);}
-    public void unloadServoPush(){
-        unloadServo.setPosition(.441);
-    }
-    public void unloadServoBack(){
-        unloadServo.setPosition(.966);
-    }
+    public void unloadServoPush(){ unloadServo.setPosition(.01433); }
+    public void unloadServoBack(){ unloadServo.setPosition(.336999); }
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -506,6 +506,7 @@ public abstract class AutoSupplies extends LinearOpMode{
         distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
         distanceBackLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackLeft");
         distanceBackRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackRight");
+        distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
         //servos
         basketServo = hardwareMap.get(Servo.class,"basketServo");
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
