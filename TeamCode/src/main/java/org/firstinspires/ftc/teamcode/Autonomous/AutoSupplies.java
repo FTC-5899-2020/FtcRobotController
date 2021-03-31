@@ -446,7 +446,7 @@ public abstract class AutoSupplies extends LinearOpMode{
         basketServo.setPosition(0.641);
     }
     public void basketServoUp(){
-        basketServo.setPosition(0.471);
+        basketServo.setPosition(0.406999);
     }
     public void wobbleArmStart(){
         wobbleArmServo.setPosition(0.40999);
@@ -464,8 +464,9 @@ public abstract class AutoSupplies extends LinearOpMode{
         wobbleGrabberServo.setPosition(0.319);
     }
     public void wobbleGrabberEject(){wobbleGrabberServo.setPosition(.921);}
-    public void unloadServoPush(){ unloadServo.setPosition(.01433); }
-    public void unloadServoBack(){ unloadServo.setPosition(.336999); }
+    public void unloadServoPush(){ unloadServo.setPosition(.23499); }
+    public void unloadServoBack(){ unloadServo.setPosition(.71); }
+    public void unloadServoStart(){ unloadServo.setPosition(.744);}
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -521,8 +522,8 @@ public abstract class AutoSupplies extends LinearOpMode{
 
         wobbleArmStart();
         wobbleGrabberClosed();
-        //basketServoDown();
-        //unloadServoPush();
+        unloadServoStart();
+        basketServoDown();
 
         //setup Camera
         final OpenCvCamera webcam;

@@ -36,6 +36,7 @@ public class BlueLeftAuto extends AutoSupplies{
 
         //  Wait until start
         waitForStart();
+        basketServoUp();
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_GRAY);
         telemetry.addData("Analysis", pipeline.getAnalysis());
         telemetry.addData("Position", pipeline.position);
@@ -51,7 +52,9 @@ public class BlueLeftAuto extends AutoSupplies{
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
         encoderMove(500, 0, .7);
-        encoderMove(525, -.7, 0);
+        while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) > 300) {
+            setPower(-.5, 0);
+        }
         turnToS(0, .6, 2);
         wobbleArmDown();
         encoderMove(2500, 0, 1);
@@ -90,27 +93,43 @@ public class BlueLeftAuto extends AutoSupplies{
         turnToS(0, .7, 2);
         basketServoUp();
         if (ringCnt > 150) {
-            encoderMove(600, 1, 0);
+            while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 700) {
+                setPower(.5, 0);
+            }
             turnToS(0, .6, 2);
             while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
                 setPower(0, .5);
             }
+            turnToS(0, .6, 2);
         } else {
             while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
                 setPower(0, .5);
             }
-            encoderMove(600, 1, 0);
+            turnToS(0, .6, 2);
+            while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 700) {
+                setPower(.5, 0);
+            }
             turnToS(0, .6, 2);
         }
 
         shooterLeft.setPower(.6);
-        shooterRight.setPower(.6);
-        sleep(1000);
-        //for(int i = 0, i < 3, i++){
-            //unloadServoPush();
-            //sleep(400);
-            //unloadServoBack();
-        //}
+        shooterRight.setPower(-.6);
+        sleep(500);
+        for(int i = 0; i < 3; i++){
+            unloadServoPush();
+            sleep(500);
+            unloadServoBack();
+            sleep(500);
+        }
+        shooterLeft.setPower(0);
+        shooterRight.setPower(0);
+        while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 1400) {
+            setPower(.5, 0);
+        }
+        turnToS(0, .7, 2);
+        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 1400) {
+            setPower(0, -.7);
+        }
         //  Turn all motors off and sleep
         setPower(0, 0);
         shooterLeft.setPower(0);
