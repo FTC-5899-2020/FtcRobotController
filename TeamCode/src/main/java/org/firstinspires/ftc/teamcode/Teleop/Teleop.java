@@ -186,11 +186,11 @@ public class Teleop extends LinearOpMode {
             } else if(!gamepad2.a){changed1 = false;}
 
             if(gamepad2.b && !changed2) {//unloading arm posistion toggle
-                if(unload == .23499){
+                if(unload == .32399){
                     unload = .710;
                 }
                 else{
-                    unload = .23499;
+                    unload = .32399;
                 }
                 changed2 = true;
             } else if(!gamepad2.b){changed2 = false;}

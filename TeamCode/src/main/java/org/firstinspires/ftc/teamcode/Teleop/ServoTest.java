@@ -70,7 +70,7 @@ public class ServoTest extends LinearOpMode {
             else if(gamepad1.dpad_down){
                 servo -= 0.001;
             }
-            basketServo.setPosition(servo);
+            unloadServo.setPosition(servo);
 
             telemetry.addData("unloadServo",basketServo.getPosition());
             telemetry.addData("servo", servo);

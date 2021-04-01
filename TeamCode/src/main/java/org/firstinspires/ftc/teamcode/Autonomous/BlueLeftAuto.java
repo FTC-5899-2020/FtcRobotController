@@ -112,17 +112,26 @@ public class BlueLeftAuto extends AutoSupplies{
             turnToS(0, .6, 2);
         }
 
-        shooterLeft.setPower(.6);
-        shooterRight.setPower(-.6);
-        sleep(500);
+        shooterLeft.setPower(.4);
+        shooterRight.setPower(-.4);
+        setPower(0,.3);
+        sleep(600);//was not updated to the bot yet... was at 500
+        setPower(0,0);
         for(int i = 0; i < 3; i++){
+            basketServoUp();
+            sleep(500);
             unloadServoPush();
             sleep(500);
             unloadServoBack();
             sleep(500);
+            basketServoDown();
+            sleep(500);
         }
         shooterLeft.setPower(0);
         shooterRight.setPower(0);
+        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 200) {
+            setPower(0, -.3);
+        }
         while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 1400) {
             setPower(.5, 0);
         }
