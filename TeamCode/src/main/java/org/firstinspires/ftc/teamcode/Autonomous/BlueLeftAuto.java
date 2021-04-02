@@ -133,11 +133,11 @@ public class BlueLeftAuto extends AutoSupplies{
             setPower(0, -.3);
         }
         while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 1400) {
-            setPower(.5, 0);
+            setPower(.6, 0);
         }
         turnToS(0, .7, 2);
         while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 1400) {
-            setPower(0, -.7);
+            setPower(0, -1);
         }
         //  Turn all motors off and sleep
         setPower(0, 0);

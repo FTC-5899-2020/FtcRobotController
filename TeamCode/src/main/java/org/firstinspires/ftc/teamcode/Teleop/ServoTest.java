@@ -70,9 +70,9 @@ public class ServoTest extends LinearOpMode {
             else if(gamepad1.dpad_down){
                 servo -= 0.001;
             }
-            unloadServo.setPosition(servo);
+            wobbleGrabberServo.setPosition(servo);
 
-            telemetry.addData("unloadServo",basketServo.getPosition());
+            telemetry.addData("unloadServo",wobbleArmServo.getPosition());
             telemetry.addData("servo", servo);
             telemetry.addData("Distance  Left", distanceLeft.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Right", distanceFwdRight.getDistance(DistanceUnit.MM));

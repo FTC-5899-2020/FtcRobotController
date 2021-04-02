@@ -89,8 +89,8 @@ public class Teleop extends LinearOpMode {
         boolean changed5 = false;
         boolean changed6 = false;
         double basket = .64;
-        double unload = .23499;
-        double wobbleArm = 0.409999;
+        double unload = .71;
+        double wobbleArm = 0.238;
         double wobbleGrabber = 0.00;
 
         // Wait for the game to start (driver presses PLAY)
@@ -156,11 +156,11 @@ public class Teleop extends LinearOpMode {
 
             //toggle for various actions for the bot for easier control
             if(gamepad2.x && !changed5) {//wobble arm posistion toggle
-                if(wobbleArm == .0199){
+                if(wobbleArm == .00999){
                     wobbleArm = .2839;
                 }
                 else{
-                    wobbleArm = .0199;
+                    wobbleArm = .00999;
                 }
                 changed5 = true;
             } else if(!gamepad2.x){changed5 = false;}

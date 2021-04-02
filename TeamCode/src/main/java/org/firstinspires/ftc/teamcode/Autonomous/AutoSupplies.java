@@ -449,13 +449,13 @@ public abstract class AutoSupplies extends LinearOpMode{
         basketServo.setPosition(0.406999);
     }
     public void wobbleArmStart(){
-        wobbleArmServo.setPosition(0.40999);
+        wobbleArmServo.setPosition(0.37399);
     }
     public void wobbleArmUp(){
         wobbleArmServo.setPosition(0.2830);
     }
     public void wobbleArmDown(){
-        wobbleArmServo.setPosition(0.0199);
+        wobbleArmServo.setPosition(0.00999);
     }
     public void wobbleGrabberClosed(){
         wobbleGrabberServo.setPosition(0);
@@ -573,7 +573,7 @@ public abstract class AutoSupplies extends LinearOpMode{
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(592,480);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(592,430);
 
         static final int REGION_WIDTH = 105;
         static final int REGION_HEIGHT = 150;
