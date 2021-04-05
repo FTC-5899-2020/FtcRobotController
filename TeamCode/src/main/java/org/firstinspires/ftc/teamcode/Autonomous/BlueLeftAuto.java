@@ -57,9 +57,12 @@ public class BlueLeftAuto extends AutoSupplies{
         }
         turnToS(0, .6, 2);
         wobbleArmDown();
-        encoderMove(2500, 0, 1);
+        //encoderMove(2500, 0, 1);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP2_LIGHT_CHASE);
         turnToS(0, .6, 2);
+        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 850) {
+            setPower(0, 1);
+        }
         if (ringCnt >= 150) {
             while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 500) {
                 setPower(0, .4);
@@ -84,13 +87,19 @@ public class BlueLeftAuto extends AutoSupplies{
         wobbleArmUp();
         sleep(500);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
-        if (ringCnt > 130 && ringCnt < 150) {
+        /*if (ringCnt > 130 && ringCnt < 150) {
             while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
                 setPower(0, .4);
             }
-        }
+        }*/
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_2_SINELON);
-        turnToS(0, .7, 2);
+        if(ringCnt > 150){
+            turnToS(360, .7, 2);
+            resetAngle();
+        }
+        else {
+            turnToS(0, .7, 2);
+        }
         basketServoUp();
         if (ringCnt > 150) {
             while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 700) {
@@ -115,7 +124,7 @@ public class BlueLeftAuto extends AutoSupplies{
         shooterLeft.setPower(.4);
         shooterRight.setPower(-.4);
         setPower(0,.3);
-        sleep(600);//was not updated to the bot yet... was at 500
+        sleep(800);//was not updated to the bot yet... was at 500
         setPower(0,0);
         for(int i = 0; i < 3; i++){
             basketServoUp();
@@ -123,12 +132,13 @@ public class BlueLeftAuto extends AutoSupplies{
             unloadServoPush();
             sleep(500);
             unloadServoBack();
-            sleep(500);
+            sleep(100);
             basketServoDown();
-            sleep(500);
+            sleep(100);
         }
         shooterLeft.setPower(0);
         shooterRight.setPower(0);
+        wobbleArmDown();
         while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 200) {
             setPower(0, -.3);
         }
@@ -136,7 +146,7 @@ public class BlueLeftAuto extends AutoSupplies{
             setPower(.6, 0);
         }
         turnToS(0, .7, 2);
-        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 1400) {
+        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 950) {
             setPower(0, -1);
         }
         //  Turn all motors off and sleep
@@ -146,3 +156,5 @@ public class BlueLeftAuto extends AutoSupplies{
         sleep(1000);
     }
 }
+//Possible link to add voltage sensor into our code.
+//https://www.reddit.com/r/FTC/comments/5cnilm/help_how_to_get_robot_battery_levelvoltage/
