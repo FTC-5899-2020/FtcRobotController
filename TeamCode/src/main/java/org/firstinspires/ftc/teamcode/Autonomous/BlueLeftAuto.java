@@ -126,6 +126,7 @@ public class BlueLeftAuto extends AutoSupplies{
         setPower(0,.3);
         sleep(800);//was not updated to the bot yet... was at 500
         setPower(0,0);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.LARSON_SCANNER_RED);
         for(int i = 0; i < 3; i++){
             basketServoUp();
             sleep(500);
@@ -138,17 +139,22 @@ public class BlueLeftAuto extends AutoSupplies{
         }
         shooterLeft.setPower(0);
         shooterRight.setPower(0);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         wobbleArmDown();
         while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 200) {
             setPower(0, -.3);
         }
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
         while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) < 1400) {
             setPower(.6, 0);
         }
         turnToS(0, .7, 2);
+
         while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 950) {
             setPower(0, -1);
         }
+
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
         //  Turn all motors off and sleep
         setPower(0, 0);
         shooterLeft.setPower(0);

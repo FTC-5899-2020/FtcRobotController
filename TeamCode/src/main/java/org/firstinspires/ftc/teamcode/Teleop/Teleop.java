@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -32,6 +33,7 @@ public class Teleop extends LinearOpMode {
     public Servo unloadServo = null;
     public Servo wobbleArmServo = null;
     public Servo wobbleGrabberServo = null;
+    public RevBlinkinLedDriver lights;
 
     //Encoder Values
     // Neverest 40 motor spec: quadrature encoder, 280 pulses per revolution, count = 280 *4
@@ -77,6 +79,8 @@ public class Teleop extends LinearOpMode {
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
         wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
         wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
+
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -208,9 +212,11 @@ public class Teleop extends LinearOpMode {
             if(gamepad1.a && !changed4) {//direction change toggle
                 if(moveDir == 1){
                     moveDir = -1;
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 }
                 else{
                     moveDir = 1;
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
                 }
                 changed4 = true;
             } else if(!gamepad1.a){changed4 = false;}
