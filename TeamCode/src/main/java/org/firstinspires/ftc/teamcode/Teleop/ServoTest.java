@@ -24,12 +24,15 @@ public class ServoTest extends LinearOpMode {
     public Servo unloadServo = null;
     public Servo wobbleGrabberServo = null;
     public Servo wobbleArmServo = null;
+    public Servo ringPullPivotServo = null;
+    public Servo ringPullArmServo = null;
     public Rev2mDistanceSensor distanceFwdLeft = null;
     public Rev2mDistanceSensor distanceFwdRight = null;
     public Rev2mDistanceSensor distanceLeft = null;
 
 
     double servo = 0.5;
+    double servo2 = 0.5;
 @Override
     public void runOpMode() {
         //Prepares all the hardware
@@ -49,6 +52,8 @@ public class ServoTest extends LinearOpMode {
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
         wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
         wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
+        ringPullPivotServo = hardwareMap.get(Servo.class, "ringPullPivotServo");
+        ringPullArmServo = hardwareMap.get(Servo.class, "ringPullArmServo");
 
         distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdLeft");
         distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
@@ -70,10 +75,18 @@ public class ServoTest extends LinearOpMode {
             else if(gamepad1.dpad_down){
                 servo -= 0.001;
             }
-            wobbleGrabberServo.setPosition(servo);
+            if(gamepad1.dpad_left){
+                servo2 += 0.001;
+            }
+            else if(gamepad1.dpad_right){
+                servo2 -= 0.001;
+            }
+            ringPullArmServo.setPosition(servo);
+            ringPullPivotServo.setPosition(servo2);
 
-            telemetry.addData("unloadServo",wobbleArmServo.getPosition());
+            //telemetry.addData("unloadServo",wobbleArmServo.getPosition());
             telemetry.addData("servo", servo);
+            telemetry.addData("servo2", servo);
             telemetry.addData("Distance  Left", distanceLeft.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Right", distanceFwdRight.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Left", distanceFwdLeft.getDistance(DistanceUnit.MM));

@@ -63,6 +63,8 @@ public abstract class AutoSupplies extends LinearOpMode{
     public Servo unloadServo = null;
     public Servo wobbleArmServo = null;
     public Servo wobbleGrabberServo = null;
+    public Servo ringPullPivotServo = null;
+    public Servo ringPullArmServo = null;
     //camera
     public AutoSupplies.SkystoneDeterminationPipeline pipeline;
 
@@ -467,6 +469,11 @@ public abstract class AutoSupplies extends LinearOpMode{
     public void unloadServoPush(){ unloadServo.setPosition(.3239); }
     public void unloadServoBack(){ unloadServo.setPosition(.71); }
     public void unloadServoStart(){ unloadServo.setPosition(.744);}
+    //public void ringPullPivotServoOut(){ ringPullPivotServo.setPosition();} //out --> add to initforAuto and the driving positions to the rest of the autos
+    //public void ringPullPivotServoIn(){ ringPullPivotServo.setPosition();} //in
+    //public void ringPullPivotServoBack(){ ringPullPivotServo.setPosition();} //back -- leave commented out
+    //public void ringPullArmServoUp(){ ringPullArmServo.setPosition();} //up
+    //public void ringPullArmServoDown(){ ringPullArmServo.setPosition();} //down -- leave commented out
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -513,6 +520,8 @@ public abstract class AutoSupplies extends LinearOpMode{
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
         wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
         wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
+        ringPullPivotServo = hardwareMap.get(Servo.class, "ringPullPivotServo");
+        ringPullArmServo = hardwareMap.get(Servo.class, "ringPullArmServo");
         resetDriveEncoders();
         // Lights turn green when it is calibrated
         telemetry.addData("Mode", "calibrating...");

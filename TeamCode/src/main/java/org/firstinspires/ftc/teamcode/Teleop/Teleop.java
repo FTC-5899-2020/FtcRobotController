@@ -33,6 +33,8 @@ public class Teleop extends LinearOpMode {
     public Servo unloadServo = null;
     public Servo wobbleArmServo = null;
     public Servo wobbleGrabberServo = null;
+    public Servo ringPullPivotServo = null;
+    public Servo ringPullArmServo = null;
     public RevBlinkinLedDriver lights;
 
     //Encoder Values
@@ -47,6 +49,8 @@ public class Teleop extends LinearOpMode {
     double powerLim = 1;
     double moveDir = 1;
 
+    //Op Mode Members
+    protected ElapsedTime runtime = new ElapsedTime();
     /*This function determines the number of ticks a motor
     would need to move in order to achieve a certain degree*/
     private int getCountsPerDegree(double degrees, int motorNumber){
@@ -79,6 +83,8 @@ public class Teleop extends LinearOpMode {
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");
         wobbleArmServo = hardwareMap.get(Servo.class, "wobbleArmServo");
         wobbleGrabberServo = hardwareMap.get(Servo.class, "wobbleGrabberServo");
+        ringPullPivotServo = hardwareMap.get(Servo.class, "ringPullPivotServo");
+        ringPullArmServo = hardwareMap.get(Servo.class, "ringPullArmServo");
 
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
@@ -92,6 +98,9 @@ public class Teleop extends LinearOpMode {
         boolean changed4 = false;
         boolean changed5 = false;
         boolean changed6 = false;
+        boolean pullPressed = false;
+        boolean firstPull = true;
+        double pullTime1 = 0;
         double basket = .64;
         double unload = .71;
         double wobbleArm = 0.238;
@@ -226,6 +235,41 @@ public class Teleop extends LinearOpMode {
             unloadServo.setPosition(unload);
             wobbleArmServo.setPosition(wobbleArm);
             wobbleGrabberServo.setPosition(wobbleGrabber);
+
+            //toggle for servo pull arm movement
+            if(gamepad2.dpad_up){
+                pullPressed = true;
+            }
+            else if(pullPressed && gamepad2.dpad_up){
+                if(firstPull){
+                    pullTime1 = runtime.milliseconds();
+                    //ringPullPivotServo.setPosition(); //in
+                    firstPull = false;
+                }
+                else{
+                    double timeDif = pullTime1 - runtime.milliseconds();
+                    if(timeDif > 300 && timeDif <= 500){
+                        //ringPullArmServo.setPosition(); //down
+                    }
+                    else if(timeDif > 500 && timeDif <= 900){
+                        //ringPullPivotServo.setPosition(); //back
+                    }
+                    else if(timeDif > 900 && timeDif <= 1100){
+                        //ringPullArmServo.setPosition(); //up
+                    }
+                    else if(timeDif > 1100){
+                        //ringPullPivotServo.setPosition(); //out to starting pos
+                    }
+                    else{
+                        pullPressed = false;
+                        firstPull = true;
+                    }
+                }
+            }
+            else{
+                //ringPullPivotServo.setPosition();//up
+                //ringPullArmServo.setPosition();//back
+            }
 
             telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
             telemetry.addData("Max Speed",powerLim);
