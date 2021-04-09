@@ -105,6 +105,8 @@ public class Teleop extends LinearOpMode {
         double unload = .71;
         double wobbleArm = 0.238;
         double wobbleGrabber = 0.00;
+        double ringPullArm = .4419;
+        double ringPullPivot = 0.0699;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -230,35 +232,35 @@ public class Teleop extends LinearOpMode {
                 changed4 = true;
             } else if(!gamepad1.a){changed4 = false;}
 
-            //assign servo position values
-            basketServo.setPosition(basket);
-            unloadServo.setPosition(unload);
-            wobbleArmServo.setPosition(wobbleArm);
-            wobbleGrabberServo.setPosition(wobbleGrabber);
-
             //toggle for servo pull arm movement
-            if(gamepad2.dpad_up){
+            if(gamepad2.dpad_up && !pullPressed){
                 pullPressed = true;
             }
             else if(pullPressed && gamepad2.dpad_up){
                 if(firstPull){
                     pullTime1 = runtime.milliseconds();
-                    //ringPullPivotServo.setPosition(); //in
+                    ringPullPivot = 0.4429; //in
+                    basket = .561;
                     firstPull = false;
                 }
                 else{
-                    double timeDif = pullTime1 - runtime.milliseconds();
-                    if(timeDif > 300 && timeDif <= 500){
-                        //ringPullArmServo.setPosition(); //down
+                    double timeDif = runtime.milliseconds() - pullTime1;
+                    telemetry.addData("timeDif", timeDif);
+                    if(timeDif > 0 && timeDif <= 300){
+                        //exists to ensure that the else is not called incorrectly
                     }
-                    else if(timeDif > 500 && timeDif <= 900){
-                        //ringPullPivotServo.setPosition(); //back
+                    else if(timeDif > 300 && timeDif <= 800){
+                        ringPullArm = 0.5939; //down
                     }
-                    else if(timeDif > 900 && timeDif <= 1100){
-                        //ringPullArmServo.setPosition(); //up
+                    //else if(timeDif >800 && timeDif <=1300){
+                    //    ringPullPivot = 0.260;
+                    //}
+                    else if(timeDif > 800 && timeDif <= 1300){
+                        ringPullArm = 0.4119; //up
+                        basket = .64;
                     }
-                    else if(timeDif > 1100){
-                        //ringPullPivotServo.setPosition(); //out to starting pos
+                    else if(timeDif > 1300){
+                        ringPullPivot = 0.0649; //out to starting pos
                     }
                     else{
                         pullPressed = false;
@@ -267,10 +269,25 @@ public class Teleop extends LinearOpMode {
                 }
             }
             else{
-                //ringPullPivotServo.setPosition();//up
-                //ringPullArmServo.setPosition();//back
+                pullPressed = false;
+                firstPull = true;
+                ringPullPivot = .0649;
+                ringPullArm = .4119;
+                if(basket != .4069){
+                    basket = .64;
+                }
             }
 
+            //assign servo position values
+            basketServo.setPosition(basket);
+            unloadServo.setPosition(unload);
+            wobbleArmServo.setPosition(wobbleArm);
+            wobbleGrabberServo.setPosition(wobbleGrabber);
+            ringPullPivotServo.setPosition(ringPullPivot);
+            ringPullArmServo.setPosition(ringPullArm);
+
+
+            telemetry.addData("firstPull", firstPull);
             telemetry.addData("Wheel Position", motorFwdLeft.getCurrentPosition()); //to be used when the encoders are ready
             telemetry.addData("Max Speed",powerLim);
             telemetry.addData("Direction",moveDir);

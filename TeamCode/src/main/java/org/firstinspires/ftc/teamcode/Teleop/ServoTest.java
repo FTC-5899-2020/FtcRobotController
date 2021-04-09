@@ -75,18 +75,20 @@ public class ServoTest extends LinearOpMode {
             else if(gamepad1.dpad_down){
                 servo -= 0.001;
             }
-            if(gamepad1.dpad_left){
+            /*if(gamepad1.dpad_left){
                 servo2 += 0.001;
             }
             else if(gamepad1.dpad_right){
                 servo2 -= 0.001;
             }
-            ringPullArmServo.setPosition(servo);
-            ringPullPivotServo.setPosition(servo2);
+
+             */
+            basketServo.setPosition(servo);
+            //ringPullPivotServo.setPosition(servo2);
 
             //telemetry.addData("unloadServo",wobbleArmServo.getPosition());
             telemetry.addData("servo", servo);
-            telemetry.addData("servo2", servo);
+           // telemetry.addData("servo2", servo2);
             telemetry.addData("Distance  Left", distanceLeft.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Right", distanceFwdRight.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Left", distanceFwdLeft.getDistance(DistanceUnit.MM));

@@ -36,7 +36,7 @@ public class BlueLeftAuto extends AutoSupplies{
 
         //  Wait until start
         waitForStart();
-        basketServoUp();
+        //basketServoUp(); -- tried moving this down lower. see how it works before deleting this
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_GRAY);
         telemetry.addData("Analysis", pipeline.getAnalysis());
         telemetry.addData("Position", pipeline.position);
@@ -51,6 +51,8 @@ public class BlueLeftAuto extends AutoSupplies{
         } else {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
+        basketServoUp();
+        ringPullPivotServoOut();
         encoderMove(500, 0, .7);
         while (opModeIsActive() && distanceLeft.getDistance(DistanceUnit.MM) > 300) {
             setPower(-.5, 0);

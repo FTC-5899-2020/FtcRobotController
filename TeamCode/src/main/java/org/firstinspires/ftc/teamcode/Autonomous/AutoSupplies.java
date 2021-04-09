@@ -469,11 +469,10 @@ public abstract class AutoSupplies extends LinearOpMode{
     public void unloadServoPush(){ unloadServo.setPosition(.3239); }
     public void unloadServoBack(){ unloadServo.setPosition(.71); }
     public void unloadServoStart(){ unloadServo.setPosition(.744);}
-    //public void ringPullPivotServoOut(){ ringPullPivotServo.setPosition();} //out --> add to initforAuto and the driving positions to the rest of the autos
-    //public void ringPullPivotServoIn(){ ringPullPivotServo.setPosition();} //in
-    //public void ringPullPivotServoBack(){ ringPullPivotServo.setPosition();} //back -- leave commented out
-    //public void ringPullArmServoUp(){ ringPullArmServo.setPosition();} //up
-    //public void ringPullArmServoDown(){ ringPullArmServo.setPosition();} //down -- leave commented out
+    public void ringPullPivotServoOut(){ ringPullPivotServo.setPosition(0.0699);} //out --> add to initforAuto and the driving positions to the rest of the autos
+    public void ringPullPivotServoIn(){ ringPullPivotServo.setPosition(0.4429);} //in
+    public void ringPullArmServoUp(){ ringPullArmServo.setPosition(0.4119);} //up
+    public void ringPullArmServoDown(){ ringPullArmServo.setPosition(0.5939);} //down
     public void initForAutonomous()
     {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -533,6 +532,8 @@ public abstract class AutoSupplies extends LinearOpMode{
         wobbleGrabberClosed();
         unloadServoStart();
         basketServoDown();
+        ringPullArmServoUp();
+        ringPullPivotServoIn();
 
         //setup Camera
         final OpenCvCamera webcam;
