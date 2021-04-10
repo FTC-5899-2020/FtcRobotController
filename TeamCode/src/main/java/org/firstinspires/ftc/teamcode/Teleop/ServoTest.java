@@ -83,7 +83,7 @@ public class ServoTest extends LinearOpMode {
             }
 
              */
-            basketServo.setPosition(servo);
+            unloadServo.setPosition(servo);
             //ringPullPivotServo.setPosition(servo2);
 
             //telemetry.addData("unloadServo",wobbleArmServo.getPosition());
