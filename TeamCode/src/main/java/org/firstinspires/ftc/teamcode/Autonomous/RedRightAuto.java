@@ -19,7 +19,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 @Autonomous(name="Red Right Auto", group="CompetitionAuto")
-//@Disabled
+@Disabled
 public class RedRightAuto extends AutoSupplies{
     @Override
     public void runOpMode() {

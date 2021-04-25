@@ -19,6 +19,7 @@ package org.firstinspires.ftc.teamcode.TestPrograms;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -38,6 +39,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 @TeleOp
+@Disabled
 public class EasyOpenCVExample extends LinearOpMode
 {
     OpenCvCamera webcam;

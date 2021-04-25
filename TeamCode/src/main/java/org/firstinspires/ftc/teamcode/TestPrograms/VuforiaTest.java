@@ -63,7 +63,7 @@ import java.util.List;
 import java.util.Locale;
 
 @TeleOp(name="Vuforia Test", group ="Test Group")
-//@Disabled
+@Disabled
 public class VuforiaTest extends LinearOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";
