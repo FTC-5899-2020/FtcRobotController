@@ -54,9 +54,32 @@ public class BlueLeftAuto extends AutoSupplies{
         basketServoUp();
         ringPullPivotServoOut();
         encoderMove(500, 0, .7);
-        while (opModeIsActive() && distanceLeftTop.getDistance(DistanceUnit.MM) > 300) {
-            setPower(-.5, 0);
-            telemetry.addData("distance val", distanceLeftTop.getDistance(DistanceUnit.MM));
+        while (opModeIsActive()) {//>300
+            double dist = distanceLeftTop.getDistance(DistanceUnit.MM);
+            double dist2 = distanceLeftBottom.getDistance(DistanceUnit.MM);
+            //time out check
+            if(dist == 65535 || distanceLeftTop.didTimeoutOccur()) {
+                dist = 65535;
+            }
+            if(dist2 == 65535 || distanceLeftBottom.didTimeoutOccur()){
+                dist2 = 65535;
+            }
+            //telemetry
+            telemetry.addData("distance val 1", dist);
+            telemetry.addData("distance val 2", dist2);
+            //power set or loop break if distance traveled is met
+            if(dist != 65535 && dist2 != 65535 && (dist + dist2)/2 > 300){
+                setPower(-.5, 0);
+            }
+            else if(dist != 65535 && dist2 == 65535 && dist > 300){
+                setPower(-.5, 0);
+            }
+            else if(dist == 65535 && dist2 != 65535 && dist2 > 300){
+                setPower(-.5, 0);
+            }
+            else{
+                break;
+            }
             telemetry.update();
         }
         turnToS(0, .6, 2);
