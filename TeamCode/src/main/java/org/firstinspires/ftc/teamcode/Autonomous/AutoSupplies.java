@@ -56,7 +56,8 @@ public abstract class AutoSupplies extends LinearOpMode{
     protected Rev2mDistanceSensor distanceFwdRight = null;
     protected Rev2mDistanceSensor distanceBackLeft = null;
     protected Rev2mDistanceSensor distanceBackRight = null;
-    protected Rev2mDistanceSensor distanceLeft = null;
+    protected Rev2mDistanceSensor distanceLeftTop = null;
+    protected Rev2mDistanceSensor distanceLeftBottom = null;
 
     //servos
     public Servo basketServo = null;
@@ -441,7 +442,8 @@ public abstract class AutoSupplies extends LinearOpMode{
     public double getDistanceBackRight(){
         return distanceBackRight.getDistance(DistanceUnit.MM);
     }
-    public double getDistanceLeft(){ return distanceLeft.getDistance(DistanceUnit.MM); }
+    public double getDistanceLeftTop(){ return distanceLeftTop.getDistance(DistanceUnit.MM); }
+    public double getDistanceLeftBottom(){ return distanceLeftBottom.getDistance(DistanceUnit.MM); }
 
     //add functions to set positions of servos here
     public void basketServoDown(){
@@ -513,7 +515,8 @@ public abstract class AutoSupplies extends LinearOpMode{
         distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
         distanceBackLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackLeft");
         distanceBackRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceBackRight");
-        distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
+        distanceLeftTop = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeftTop");
+        distanceLeftBottom = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeftBottom");
         //servos
         basketServo = hardwareMap.get(Servo.class,"basketServo");
         unloadServo = hardwareMap.get(Servo.class,"unloadServo");

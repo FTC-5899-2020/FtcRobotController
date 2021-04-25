@@ -28,7 +28,8 @@ public class ServoTest extends LinearOpMode {
     public Servo ringPullArmServo = null;
     public Rev2mDistanceSensor distanceFwdLeft = null;
     public Rev2mDistanceSensor distanceFwdRight = null;
-    public Rev2mDistanceSensor distanceLeft = null;
+    public Rev2mDistanceSensor distanceLeftTop = null;
+    public Rev2mDistanceSensor distanceLeftBottom = null;
 
 
     double servo = 0.5;
@@ -57,7 +58,8 @@ public class ServoTest extends LinearOpMode {
 
         distanceFwdLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdLeft");
         distanceFwdRight = hardwareMap.get(Rev2mDistanceSensor.class, "distanceFwdRight");
-        distanceLeft = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeft");
+        distanceLeftTop = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeftTop");
+        distanceLeftBottom = hardwareMap.get(Rev2mDistanceSensor.class, "distanceLeftBottom");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -89,7 +91,8 @@ public class ServoTest extends LinearOpMode {
             //telemetry.addData("unloadServo",wobbleArmServo.getPosition());
             telemetry.addData("servo", servo);
            // telemetry.addData("servo2", servo2);
-            telemetry.addData("Distance  Left", distanceLeft.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Left Top", distanceLeftTop.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Left Bottom", distanceLeftBottom.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Right", distanceFwdRight.getDistance(DistanceUnit.MM));
             telemetry.addData("Distance Forward Left", distanceFwdLeft.getDistance(DistanceUnit.MM));
 
