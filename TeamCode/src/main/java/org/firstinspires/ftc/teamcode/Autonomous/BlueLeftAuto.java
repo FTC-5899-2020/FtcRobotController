@@ -54,64 +54,27 @@ public class BlueLeftAuto extends AutoSupplies{
         basketServoUp();
         ringPullPivotServoOut();
         encoderMove(500, 0, .7);
-        while (opModeIsActive()) {//>300
-            double dist = distanceLeftTop.getDistance(DistanceUnit.MM);
-            double dist2 = distanceLeftBottom.getDistance(DistanceUnit.MM);
-            //time out check
-            if(dist == 65535 || distanceLeftTop.didTimeoutOccur()) {
-                dist = 65535;
-            }
-            if(dist2 == 65535 || distanceLeftBottom.didTimeoutOccur()){
-                dist2 = 65535;
-            }
-            //telemetry
-            telemetry.addData("distance val 1", dist);
-            telemetry.addData("distance val 2", dist2);
-            //power set or loop break if distance traveled is met
-            if(dist != 65535 && dist2 != 65535 && (dist + dist2)/2 > 300){
-                setPower(-.5, 0);
-            }
-            else if(dist != 65535 && dist2 == 65535 && dist > 300){
-                setPower(-.5, 0);
-            }
-            else if(dist == 65535 && dist2 != 65535 && dist2 > 300){
-                setPower(-.5, 0);
-            }
-            else{
-                break;
-            }
-            telemetry.update();
-        }
+        moveUsingLeftDistance(300, -.5);
         turnToS(0, .6, 2);
         wobbleArmDown();
-        //encoderMove(2500, 0, 1);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP2_LIGHT_CHASE);
         turnToS(0, .6, 2);
-        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 850) {
-            setPower(0, 1);
-            telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-            telemetry.update();
+        moveUsingFwdDistance(950, 1);
+        if (ringCnt > 130 && ringCnt < 150) {
+            moveUsingFwdDistance(700,.4);
         }
-        if (ringCnt >= 150) {
-            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 500) {
-                setPower(0, .4);
-                telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-                telemetry.update();
-            }
-        } else {
-            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 700) {
-                setPower(0, .4);
-                telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-                telemetry.update();
-            }
+        else if(ringCnt >= 150){
+            moveUsingFwdDistance(500,.4);
         }
 
         setPower(0, 0);
         if (ringCnt > 130 && ringCnt < 150) {
             turnToS(90, .7, 2);
+            moveUsingFwdDistance(400, -.5);
         } else if (ringCnt >= 150) {
             turnToS(210, .7, 2);
         }
+        setPower(0,0);
         wobbleGrabberOpen();
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_2_TWINKLES);
         sleep(400);
@@ -120,11 +83,9 @@ public class BlueLeftAuto extends AutoSupplies{
         wobbleArmUp();
         sleep(500);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
-        /*if (ringCnt > 130 && ringCnt < 150) {
-            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
-                setPower(0, .4);
-            }
-        }*/
+        if (ringCnt > 130 && ringCnt < 150) {
+            moveUsingFwdDistance(200, .5);
+        }
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_2_SINELON);
         if(ringCnt > 150){
             turnToS(360, .7, 2);
@@ -135,30 +96,14 @@ public class BlueLeftAuto extends AutoSupplies{
         }
         basketServoUp();
         if (ringCnt > 150) {
-            while (opModeIsActive() && distanceLeftTop.getDistance(DistanceUnit.MM) < 700) {
-                setPower(.5, 0);
-                telemetry.addData("distance val", distanceLeftTop.getDistance(DistanceUnit.MM));
-                telemetry.update();
-            }
+            moveUsingLeftDistance(700, .5);
             turnToS(0, .6, 2);
-            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
-                setPower(0, .5);
-                telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-                telemetry.update();
-            }
+            moveUsingFwdDistance(200, .5);
             turnToS(0, .6, 2);
         } else {
-            while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 > 200) {
-                setPower(0, .5);
-                telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-                telemetry.update();
-            }
+            moveUsingFwdDistance(200, .5);
             turnToS(0, .6, 2);
-            while (opModeIsActive() && distanceLeftTop.getDistance(DistanceUnit.MM) < 700) {
-                setPower(.5, 0);
-                telemetry.addData("distance val", distanceLeftTop.getDistance(DistanceUnit.MM));
-                telemetry.update();
-            }
+            moveUsingLeftDistance(700, .5);
             turnToS(0, .6, 2);
         }
 
@@ -182,25 +127,11 @@ public class BlueLeftAuto extends AutoSupplies{
         shooterRight.setPower(0);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         wobbleArmDown();
-        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 200) {
-            setPower(0, -.3);
-            telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-            telemetry.update();
-        }
+        moveUsingFwdDistance(200, -.3);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
-        while (opModeIsActive() && distanceLeftTop.getDistance(DistanceUnit.MM) < 1400) {
-            setPower(.6, 0);
-            telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-            telemetry.update();
-        }
+        moveUsingLeftDistance(1400, .6);
         turnToS(0, .7, 2);
-
-        while (opModeIsActive() && (distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM)) / 2 < 950) {
-            setPower(0, -1);
-            telemetry.addData("distance val", distanceFwdLeft.getDistance(DistanceUnit.MM) + distanceFwdRight.getDistance(DistanceUnit.MM) / 2);
-            telemetry.update();
-        }
-
+        moveUsingFwdDistance(950, -1);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
         //  Turn all motors off and sleep
         setPower(0, 0);

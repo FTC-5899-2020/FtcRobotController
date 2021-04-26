@@ -445,6 +445,86 @@ public abstract class AutoSupplies extends LinearOpMode{
     public double getDistanceLeftTop(){ return distanceLeftTop.getDistance(DistanceUnit.MM); }
     public double getDistanceLeftBottom(){ return distanceLeftBottom.getDistance(DistanceUnit.MM); }
 
+    public void moveUsingLeftDistance(double distance, double power){//- means strafe left and + means strafe right
+        while (opModeIsActive()) {
+            double dist = distanceLeftTop.getDistance(DistanceUnit.MM);
+            double dist2 = distanceLeftBottom.getDistance(DistanceUnit.MM);
+            //time out check
+            if(dist == 65535 || distanceLeftTop.didTimeoutOccur()) {
+                dist = 65535;
+            }
+            if(dist2 == 65535 || distanceLeftBottom.didTimeoutOccur()){
+                dist2 = 65535;
+            }
+            //telemetry
+            telemetry.addData("distance val 1", dist);
+            telemetry.addData("distance val 2", dist2);
+            //power set or loop break if distance traveled is met
+            if(power <= 0) {
+                if (dist != 65535 && dist2 != 65535 && (dist + dist2) / 2 > distance) {
+                    setPower(power, 0);
+                } else if (dist != 65535 && dist2 == 65535 && dist > distance) {
+                    setPower(power, 0);
+                } else if (dist == 65535 && dist2 != 65535 && dist2 > distance) {
+                    setPower(power, 0);
+                } else {
+                    break;
+                }
+            }
+            else {
+                if (dist != 65535 && dist2 != 65535 && (dist + dist2) / 2 < distance) {
+                    setPower(power, 0);
+                } else if (dist != 65535 && dist2 == 65535 && dist < distance) {
+                    setPower(power, 0);
+                } else if (dist == 65535 && dist2 != 65535 && dist2 < distance) {
+                    setPower(power, 0);
+                } else {
+                    break;
+                }
+            }
+            telemetry.update();
+        }
+    }
+    public void moveUsingFwdDistance(double distance, double power){//- means strafe back and + means strafe fwd
+        while (opModeIsActive()) {
+            double dist = distanceFwdLeft.getDistance(DistanceUnit.MM);
+            double dist2 = distanceFwdRight.getDistance(DistanceUnit.MM);
+            //time out check
+            if(dist == 65535 || distanceFwdLeft.didTimeoutOccur()) {
+                dist = 65535;
+            }
+            if(dist2 == 65535 || distanceFwdRight.didTimeoutOccur()){
+                dist2 = 65535;
+            }
+            //telemetry
+            telemetry.addData("distance val 1", dist);
+            telemetry.addData("distance val 2", dist2);
+            //power set or loop break if distance traveled is met
+            if(power <= 0) {
+                if (dist != 65535 && dist2 != 65535 && (dist + dist2) / 2 < distance) {
+                    setPower(0, power);
+                } else if (dist != 65535 && dist2 == 65535 && dist < distance) {
+                    setPower(0, power);
+                } else if (dist == 65535 && dist2 != 65535 && dist2 < distance) {
+                    setPower(0, power);
+                } else {
+                    break;
+                }
+            }
+            else {
+                if (dist != 65535 && dist2 != 65535 && (dist + dist2) / 2 > distance) {
+                    setPower(0, power);
+                } else if (dist != 65535 && dist2 == 65535 && dist > distance) {
+                    setPower(0, power);
+                } else if (dist == 65535 && dist2 != 65535 && dist2 > distance) {
+                    setPower(0, power);
+                } else {
+                    break;
+                }
+            }
+            telemetry.update();
+        }
+    }
     //add functions to set positions of servos here
     public void basketServoDown(){
         basketServo.setPosition(0.641);
