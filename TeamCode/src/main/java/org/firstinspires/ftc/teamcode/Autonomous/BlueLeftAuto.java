@@ -80,12 +80,12 @@ public class BlueLeftAuto extends AutoSupplies{
         sleep(400);
         wobbleGrabberEject();
         sleep(200);
-        wobbleArmUp();
-        sleep(500);
-        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
         if (ringCnt > 130 && ringCnt < 150) {
             moveUsingFwdDistance(200, .5);
         }
+        wobbleArmUp();
+        sleep(500);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_2_SINELON);
         if(ringCnt > 150){
             turnToS(360, .7, 2);
@@ -129,7 +129,9 @@ public class BlueLeftAuto extends AutoSupplies{
         wobbleArmDown();
         moveUsingFwdDistance(200, -.3);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
-        moveUsingLeftDistance(1400, .6);
+        if(ringCnt > 130 && ringCnt < 150){
+            moveUsingLeftDistance(1400, .6);
+        }
         turnToS(0, .7, 2);
         moveUsingFwdDistance(950, -1);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);

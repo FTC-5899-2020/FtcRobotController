@@ -456,6 +456,10 @@ public abstract class AutoSupplies extends LinearOpMode{
             if(dist2 == 65535 || distanceLeftBottom.didTimeoutOccur()){
                 dist2 = 65535;
             }
+            if(dist >= 8000 || dist2 >= 8000){
+                dist = 8190;
+                dist2 = 8190;
+            }
             //telemetry
             telemetry.addData("distance val 1", dist);
             telemetry.addData("distance val 2", dist2);
@@ -495,6 +499,10 @@ public abstract class AutoSupplies extends LinearOpMode{
             }
             if(dist2 == 65535 || distanceFwdRight.didTimeoutOccur()){
                 dist2 = 65535;
+            }
+            if(dist >= 8190 || dist2 >= 8190){
+                dist = 8190;
+                dist2 = 8190;
             }
             //telemetry
             telemetry.addData("distance val 1", dist);
